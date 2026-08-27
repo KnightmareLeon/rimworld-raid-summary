@@ -1,3 +1,4 @@
+using HarmonyLib;
 using Verse;
 
 namespace RaidSummary
@@ -6,6 +7,9 @@ namespace RaidSummary
     {
         public RaidSummaryMod(ModContentPack content) : base(content)
         {
+            var harmony = new Harmony("IceFrost.RaidSummary");
+            harmony.PatchAll();
+
             Log.Message("[Raid Summary] initialized");
         }
     }
