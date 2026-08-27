@@ -1,0 +1,10 @@
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Assemblies\net472\RaidSummary.dll
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Assemblies\net472\RaidSummary.pdb
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.csproj.AssemblyReference.cache
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.AssemblyInfoInputs.cache
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.AssemblyInfo.cs
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.csproj.CoreCompileInputs.cache
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.sourcelink.json
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.dll
+C:\Users\Leonard\Documents\repos\github\rimword-raid-summary\Source\RaidSummary\obj\Debug\net472\RaidSummary.pdb
