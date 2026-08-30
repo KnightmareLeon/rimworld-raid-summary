@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using RaidSummary.Models;
 using RimWorld;
 using Verse;
 
@@ -17,9 +18,61 @@ namespace RaidSummary.Patches
             if (!__result || debugTest || pawns == null)
                 return;
 
+            RaidSummaryData summary = new RaidSummaryData
+            {
+                PawnCount = pawns.Count
+            };
+
+            foreach (Pawn pawn in pawns)
+            {
+                Thing equipment = pawn.equipment?.Primary;
+
+                if (equipment == null)
+                    continue;
+
+                ThingDef equipmentDef = equipment.def;
+
+                if (!summary.Equipment.TryGetValue(equipmentDef, out EquipmentSummary equipmentSummary))
+                {
+                    equipmentSummary = new EquipmentSummary
+                    {
+                        EquipmentDef = equipmentDef
+                    };
+
+                    summary.Equipment.Add(equipmentDef, equipmentSummary);
+                }
+
+                QualityCategory quality = QualityCategory.Normal;
+
+                CompQuality compQuality = equipment.TryGetComp<CompQuality>();
+
+                if (compQuality != null)
+                    quality = compQuality.Quality;
+
+                if (!equipmentSummary.QualityCounts.ContainsKey(quality))
+                    equipmentSummary.QualityCounts[quality] = 0;
+
+                equipmentSummary.QualityCounts[quality]++;
+            }
+
             Log.Message(
-                $"[Raid Summary] Raid generated with {pawns.Count} pawns."
+                $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
             );
+
+            foreach(var (equipmentDef, equipmentSummary) in summary.Equipment)
+            {
+                Log.Message(
+                    $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.GetTotal()}"
+                );
+
+                foreach (var (quality, qualityCount) in equipmentSummary.QualityCounts)
+                {
+                    Log.Message(
+                        $"[Raid Summary] Total {quality} {equipmentDef.LabelCap}: {qualityCount}"
+                    );
+                } 
+            }
+
         }
     }
 }
