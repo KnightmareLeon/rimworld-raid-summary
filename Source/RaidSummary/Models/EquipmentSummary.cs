@@ -11,6 +11,8 @@ namespace RaidSummary.Models
         public Dictionary<QualityCategory, int> QualityCounts { get; set; }
             = new Dictionary<QualityCategory, int>();
 
+        public int BiocodedCount = 0;
+
         public int GetTotal()
         {
             int res = 0;
