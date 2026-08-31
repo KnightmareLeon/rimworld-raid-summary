@@ -27,59 +27,36 @@ namespace RaidSummary.Patches
             {
                 Thing equipment = pawn.equipment?.Primary;
 
-                if (equipment == null)
-                    continue;
+                summary.UpdateEquipmentSummaries(equipment);
 
-                ThingDef equipmentDef = equipment.def;
-
-                if (!summary.Equipment.TryGetValue(equipmentDef, out EquipmentSummary equipmentSummary))
-                {
-                    equipmentSummary = new EquipmentSummary
-                    {
-                        EquipmentDef = equipmentDef
-                    };
-
-                    summary.Equipment.Add(equipmentDef, equipmentSummary);
-                }
-
-                QualityCategory quality = QualityCategory.Normal;
-
-                CompQuality compQuality = equipment.TryGetComp<CompQuality>();
-
-                if (compQuality != null)
-                    quality = compQuality.Quality;
-
-                if (!equipmentSummary.QualityCounts.ContainsKey(quality))
-                    equipmentSummary.QualityCounts[quality] = 0;
-
-                equipmentSummary.QualityCounts[quality]++;
-
-                CompBiocodable compBiocodable = equipment.TryGetComp<CompBiocodable>();
-
-                if(compBiocodable != null)
-                    equipmentSummary.BiocodedCount += compBiocodable.Biocoded ? 1 : 0;
             }
 
             Log.Message(
                 $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
             );
 
-            foreach(var (equipmentDef, equipmentSummary) in summary.Equipment)
+            using (var eqpSummayEnumerator = summary.EquipmentSummariesEnumerator())
             {
-                Log.Message(
-                    $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.GetTotal()}"
-                );
-
-                foreach (var (quality, qualityCount) in equipmentSummary.QualityCounts)
+                while (eqpSummayEnumerator.MoveNext())
                 {
+                    ThingDef equipmentDef = eqpSummayEnumerator.Current.Key;
+                    EquipmentSummary equipmentSummary = eqpSummayEnumerator.Current.Value;
+
                     Log.Message(
-                        $"[Raid Summary] Total {quality} {equipmentDef.LabelCap}: {qualityCount}"
+                        $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.GetTotal()}"
+                    );
+
+                    foreach (var (quality, qualityCount) in equipmentSummary.QualityCounts)
+                    {
+                        Log.Message(
+                            $"[Raid Summary] Total {quality} {equipmentDef.LabelCap}: {qualityCount}"
+                        );
+                    }
+
+                    Log.Message(
+                        $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
                     );
                 }
-
-                Log.Message(
-                    $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
-                );
             }
 
         }
