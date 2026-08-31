@@ -8,5 +8,8 @@ namespace RaidSummary.Models
         public int PawnCount {get; set;}
         public Dictionary<ThingDef, EquipmentSummary> Equipment { get; set; }
             = new Dictionary<ThingDef, EquipmentSummary>();
+
+        public Dictionary<ThingDef, ApparelSummary> Apparel {get; set;}
+            = new Dictionary<ThingDef, ApparelSummary>();
     }
 }
