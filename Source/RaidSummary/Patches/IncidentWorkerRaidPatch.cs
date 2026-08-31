@@ -53,6 +53,11 @@ namespace RaidSummary.Patches
                     equipmentSummary.QualityCounts[quality] = 0;
 
                 equipmentSummary.QualityCounts[quality]++;
+
+                CompBiocodable compBiocodable = equipment.TryGetComp<CompBiocodable>();
+
+                if(compBiocodable != null)
+                    equipmentSummary.BiocodedCount += compBiocodable.Biocoded ? 1 : 0;
             }
 
             Log.Message(
@@ -70,7 +75,11 @@ namespace RaidSummary.Patches
                     Log.Message(
                         $"[Raid Summary] Total {quality} {equipmentDef.LabelCap}: {qualityCount}"
                     );
-                } 
+                }
+
+                Log.Message(
+                    $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
+                );
             }
 
         }
