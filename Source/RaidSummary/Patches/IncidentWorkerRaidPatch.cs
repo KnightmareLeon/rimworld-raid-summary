@@ -25,23 +25,39 @@ namespace RaidSummary.Patches
 
             foreach (Pawn pawn in pawns)
             {
-                Thing equipment = pawn.equipment?.Primary;
-                List<Apparel> wornApparel = pawn.apparel?.WornApparel;
+                summary.UpdateEquipmentSummaries(pawn.equipment?.Primary);
+                summary.UpdateApparelSummaries(pawn.apparel?.WornApparel);
 
-                summary.UpdateEquipmentSummaries(equipment);
-                summary.UpdateApparelSummaries(wornApparel);
+                if (ModsConfig.BiotechActive)
+                {
+                    summary.UpdateXenotypeCount(pawn.genes.Xenotype);
+                }
             }
 
             Log.Message(
                 $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
             );
 
-            using (var eqpSummayEnumerator = summary.EquipmentSummariesEnumerator())
+            if(ModsConfig.BiotechActive)
             {
-                while (eqpSummayEnumerator.MoveNext())
+                using (var xenSummaryEnumerator = summary.XenotypeCountsEnumerator())
                 {
-                    ThingDef equipmentDef = eqpSummayEnumerator.Current.Key;
-                    EquipmentSummary equipmentSummary = eqpSummayEnumerator.Current.Value;
+                    while (xenSummaryEnumerator.MoveNext())
+                    {
+                        Log.Message(
+                            $"[Raid Summary] Total {xenSummaryEnumerator.Current.Key.LabelCap} pawns: {xenSummaryEnumerator.Current.Value}"
+                        );
+                    }
+                }
+            }
+
+
+            using (var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
+            {
+                while (eqpSummaryEnumerator.MoveNext())
+                {
+                    ThingDef equipmentDef = eqpSummaryEnumerator.Current.Key;
+                    EquipmentSummary equipmentSummary = eqpSummaryEnumerator.Current.Value;
 
                     Log.Message(
                         $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.Total}"
