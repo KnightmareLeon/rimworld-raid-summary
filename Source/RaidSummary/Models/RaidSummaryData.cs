@@ -67,6 +67,8 @@ namespace RaidSummary.Models
                     apparelSummaries.Add(apparelDef, apparelSummary);
                 }
 
+                apparelSummary.Total++;
+
                 QualityCategory quality = QualityCategory.Normal;
 
                 CompQuality compQuality = apparel.TryGetComp<CompQuality>();
@@ -79,6 +81,15 @@ namespace RaidSummary.Models
 
                 apparelSummary.QualityCounts[quality]++;
 
+                ThingDef stuffDef = apparel?.Stuff;
+
+                if(stuffDef != null)
+                {
+                    if (!apparelSummary.MaterialCounts.ContainsKey(stuffDef))
+                        apparelSummary.MaterialCounts[stuffDef] = 0;
+
+                    apparelSummary.MaterialCounts[stuffDef]++;
+                }
             }
 
         }

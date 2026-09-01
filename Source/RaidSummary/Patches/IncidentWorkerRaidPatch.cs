@@ -68,7 +68,7 @@ namespace RaidSummary.Patches
                     ApparelSummary apparelSummary = appSummayEnumerator.Current.Value;
 
                     Log.Message(
-                        $"[Raid Summary] Total {apparelDef.LabelCap}: {apparelSummary.GetTotal()}"
+                        $"[Raid Summary] Total {apparelDef.LabelCap}: {apparelSummary.Total}"
                     );
 
                     foreach (var (quality, qualityCount) in apparelSummary.QualityCounts)
@@ -78,6 +78,15 @@ namespace RaidSummary.Patches
                         );
                     }
 
+                    if(!apparelSummary.MaterialCounts.NullOrEmpty())
+                    {
+                        foreach (var (materialDef, materialCount) in apparelSummary.MaterialCounts)
+                        {
+                            Log.Message(
+                                $"[Raid Summary] Total {materialDef.LabelCap} {apparelDef.LabelCap}: {materialCount}"
+                            );
+                        }
+                    }
                 }
             }
 
