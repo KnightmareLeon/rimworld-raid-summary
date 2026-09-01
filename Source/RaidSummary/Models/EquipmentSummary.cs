@@ -13,15 +13,6 @@ namespace RaidSummary.Models
 
         public int BiocodedCount = 0;
 
-        public int GetTotal()
-        {
-            int res = 0;
-            foreach (var value in QualityCounts.Values)
-            {
-                res += value;
-            }
-
-            return res;
-        }
+        public int Total = 0;
     }
 }

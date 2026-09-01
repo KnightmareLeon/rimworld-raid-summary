@@ -44,7 +44,7 @@ namespace RaidSummary.Patches
                     EquipmentSummary equipmentSummary = eqpSummayEnumerator.Current.Value;
 
                     Log.Message(
-                        $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.GetTotal()}"
+                        $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.Total}"
                     );
 
                     foreach (var (quality, qualityCount) in equipmentSummary.QualityCounts)

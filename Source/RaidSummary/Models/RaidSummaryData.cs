@@ -30,6 +30,8 @@ namespace RaidSummary.Models
                 equipmentSummaries.Add(equipmentDef, equipmentSummary);
             }
 
+            equipmentSummary.Total++;
+
             QualityCategory quality = QualityCategory.Normal;
 
             CompQuality compQuality = equipment.TryGetComp<CompQuality>();
