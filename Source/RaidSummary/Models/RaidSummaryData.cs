@@ -44,6 +44,16 @@ namespace RaidSummary.Models
 
             equipmentSummary.QualityCounts[quality]++;
 
+            ThingDef stuffDef = equipment?.Stuff;
+
+            if(stuffDef != null)
+            {
+                if (!equipmentSummary.MaterialCounts.ContainsKey(stuffDef))
+                    equipmentSummary.MaterialCounts[stuffDef] = 0;
+
+                equipmentSummary.MaterialCounts[stuffDef]++;
+            }
+
             CompBiocodable compBiocodable = equipment.TryGetComp<CompBiocodable>();
 
             if(compBiocodable != null)

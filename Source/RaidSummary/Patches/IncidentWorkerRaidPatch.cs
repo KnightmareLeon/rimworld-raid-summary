@@ -61,6 +61,15 @@ namespace RaidSummary.Patches
                         );
                     }
 
+                    if(!equipmentSummary.MaterialCounts.NullOrEmpty())
+                    {
+                        foreach (var (materialDef, materialCount) in equipmentSummary.MaterialCounts)
+                        {
+                            Log.Message(
+                                $"[Raid Summary] Total {materialDef.LabelCap} {equipmentDef.LabelCap}: {materialCount}"
+                            );
+                        }
+                    }
                 }
             }
 
