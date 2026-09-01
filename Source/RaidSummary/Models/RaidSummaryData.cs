@@ -10,7 +10,7 @@ namespace RaidSummary.Models
         private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
 
-        public Dictionary<ThingDef, ApparelSummary> ApparelSummaries {get; set;}
+        private readonly Dictionary<ThingDef, ApparelSummary> apparelSummaries
             = new Dictionary<ThingDef, ApparelSummary>();
 
         public void UpdateEquipmentSummaries(Thing equipment)
@@ -20,7 +20,6 @@ namespace RaidSummary.Models
             
             ThingDef equipmentDef = equipment.def;
 
-            equipmentSummaries.GetEnumerator();
             if (!equipmentSummaries.TryGetValue(equipmentDef, out EquipmentSummary equipmentSummary))
             {
                 equipmentSummary = new EquipmentSummary
@@ -49,9 +48,48 @@ namespace RaidSummary.Models
                 equipmentSummary.BiocodedCount += compBiocodable.Biocoded ? 1 : 0;
         }
 
+        public void UpdateApparelSummaries(List<Apparel> wornApparel)
+        {
+            if (wornApparel.NullOrEmpty())
+                return;
+            
+            foreach (Apparel apparel in wornApparel)
+            {
+                ThingDef apparelDef = apparel.def;
+
+                if (!apparelSummaries.TryGetValue(apparelDef, out ApparelSummary apparelSummary))
+                {
+                    apparelSummary = new ApparelSummary
+                    {
+                        ApparelDef = apparelDef
+                    };
+
+                    apparelSummaries.Add(apparelDef, apparelSummary);
+                }
+
+                QualityCategory quality = QualityCategory.Normal;
+
+                CompQuality compQuality = apparel.TryGetComp<CompQuality>();
+
+                if (compQuality != null)
+                    quality = compQuality.Quality;
+
+                if (!apparelSummary.QualityCounts.ContainsKey(quality))
+                    apparelSummary.QualityCounts[quality] = 0;
+
+                apparelSummary.QualityCounts[quality]++;
+
+            }
+
+        }
         public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator()
         {
             return equipmentSummaries.GetEnumerator();
+        }
+
+        public Dictionary<ThingDef, ApparelSummary>.Enumerator ApparelSummariesEnumerator()
+        {
+            return apparelSummaries.GetEnumerator();
         }
     }
 }
