@@ -9,9 +9,10 @@ namespace RaidSummary.Models
         public int PawnCount {get; set;}
         private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
-
         private readonly Dictionary<ThingDef, ApparelSummary> apparelSummaries
             = new Dictionary<ThingDef, ApparelSummary>();
+        private readonly Dictionary<XenotypeDef, int> xenotypeCounts
+            = new Dictionary<XenotypeDef, int>();
 
         public void UpdateEquipmentSummaries(Thing equipment)
         {
@@ -105,6 +106,15 @@ namespace RaidSummary.Models
             }
 
         }
+
+        public void UpdateXenotypeCount(XenotypeDef xenotype)
+        {
+            if(!xenotypeCounts.ContainsKey(xenotype))
+                xenotypeCounts[xenotype] = 0;
+
+            xenotypeCounts[xenotype]++;
+        }
+
         public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator()
         {
             return equipmentSummaries.GetEnumerator();
@@ -113,6 +123,11 @@ namespace RaidSummary.Models
         public Dictionary<ThingDef, ApparelSummary>.Enumerator ApparelSummariesEnumerator()
         {
             return apparelSummaries.GetEnumerator();
+        }
+
+        public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator()
+        {
+            return xenotypeCounts.GetEnumerator();
         }
     }
 }
