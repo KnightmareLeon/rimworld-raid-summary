@@ -10,16 +10,8 @@ namespace RaidSummary.Models
         public ThingDef ApparelDef { get; set; }
         public Dictionary<QualityCategory, int> QualityCounts { get; set; }
             = new Dictionary<QualityCategory, int>();
-
-        public int GetTotal()
-        {
-            int res = 0;
-            foreach (var value in QualityCounts.Values)
-            {
-                res += value;
-            }
-
-            return res;
-        }
+        public Dictionary<ThingDef, int> MaterialCounts {get; set;}
+            = new Dictionary<ThingDef, int>();
+        public int Total = 0;
     }
 }
