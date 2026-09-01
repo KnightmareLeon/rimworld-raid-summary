@@ -26,9 +26,10 @@ namespace RaidSummary.Patches
             foreach (Pawn pawn in pawns)
             {
                 Thing equipment = pawn.equipment?.Primary;
+                List<Apparel> wornApparel = pawn.apparel?.WornApparel;
 
                 summary.UpdateEquipmentSummaries(equipment);
-
+                summary.UpdateApparelSummaries(wornApparel);
             }
 
             Log.Message(
@@ -56,6 +57,27 @@ namespace RaidSummary.Patches
                     Log.Message(
                         $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
                     );
+                }
+            }
+
+            using (var appSummayEnumerator = summary.ApparelSummariesEnumerator())
+            {
+                while (appSummayEnumerator.MoveNext())
+                {
+                    ThingDef apparelDef = appSummayEnumerator.Current.Key;
+                    ApparelSummary apparelSummary = appSummayEnumerator.Current.Value;
+
+                    Log.Message(
+                        $"[Raid Summary] Total {apparelDef.LabelCap}: {apparelSummary.GetTotal()}"
+                    );
+
+                    foreach (var (quality, qualityCount) in apparelSummary.QualityCounts)
+                    {
+                        Log.Message(
+                            $"[Raid Summary] Total {quality} {apparelDef.LabelCap}: {qualityCount}"
+                        );
+                    }
+
                 }
             }
 
