@@ -54,9 +54,13 @@ namespace RaidSummary.Patches
                         );
                     }
 
-                    Log.Message(
-                        $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
-                    );
+                    if(equipmentSummary.BiocodedCount > 0)
+                    {
+                        Log.Message(
+                            $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
+                        );
+                    }
+
                 }
             }
 
