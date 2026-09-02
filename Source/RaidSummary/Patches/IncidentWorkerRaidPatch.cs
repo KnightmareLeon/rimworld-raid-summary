@@ -18,21 +18,7 @@ namespace RaidSummary.Patches
             if (!__result || debugTest || pawns == null)
                 return;
 
-            RaidSummaryData summary = new RaidSummaryData
-            {
-                PawnCount = pawns.Count
-            };
-
-            foreach (Pawn pawn in pawns)
-            {
-                summary.UpdateEquipmentSummaries(pawn.equipment?.Primary);
-                summary.UpdateApparelSummaries(pawn.apparel?.WornApparel);
-
-                if (ModsConfig.BiotechActive)
-                {
-                    summary.UpdateXenotypeCount(pawn.genes.Xenotype);
-                }
-            }
+            RaidSummaryData summary = new RaidSummaryData(pawns);
 
             Log.Message(
                 $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
