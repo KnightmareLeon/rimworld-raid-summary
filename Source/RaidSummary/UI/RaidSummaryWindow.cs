@@ -63,9 +63,26 @@ namespace RaidSummary.UI
             }
         }
 
+        public float ComputeContentHeight()
+        {
+            float contentHeight = 0f;
+            contentHeight += 21f; // Title heading
+            contentHeight += 21f; // Equipment heading
+            contentHeight += 21f; // Apparel heading
+            if(ModsConfig.BiotechActive)
+            {
+                contentHeight += 21f; // Xenotypes heading
+                contentHeight += summary.XenotypeTotal() * 21f;
+            }
+
+            contentHeight += summary.GetContentHeight();
+
+            return contentHeight;
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
-            float contentHeight = 1200f;
+            float contentHeight = ComputeContentHeight();
 
             Rect viewRect = new Rect(
                 0f,
@@ -84,8 +101,15 @@ namespace RaidSummary.UI
             listing.Gap();
 
             listing.Label($"Pawns: {summary.PawnCount}");
-
+            
             listing.GapLine();
+
+            if(ModsConfig.BiotechActive)
+            {
+                listing.Label("Xenotypes");
+
+                listing.GapLine();
+            }
 
             listing.Label("Equipment");
 
@@ -99,7 +123,6 @@ namespace RaidSummary.UI
                     DrawEquipment(listing, eqpDef, eqpSummary);
                 }
 
-                listing.GapLine();
             }
 
             listing.GapLine();

@@ -149,5 +149,26 @@ namespace RaidSummary.Models
         public int EquipmentSummariesCount() => equipmentSummaries.Count;
         public int ApparelSummariesCount() => apparelSummaries.Count;
         public int XenotypeTotal() => xenotypeCounts.Count;
+
+        public float GetContentHeight()
+        {
+            float contentHeight = 0f;
+            foreach(EquipmentSummary eqpSummary in equipmentSummaries.Values)
+            {
+                contentHeight += eqpSummary.GetContentHeight();
+            }
+
+            foreach(ApparelSummary apparelSummary in apparelSummaries.Values)
+            {
+                contentHeight += apparelSummary.GetContentHeight();
+            }
+
+            if(ModsConfig.BiotechActive)
+            {
+                contentHeight += xenotypeCounts.Count * 21f + 21f;
+            }
+
+            return contentHeight;
+        }
     }
 }

@@ -13,5 +13,10 @@ namespace RaidSummary.Models
         public Dictionary<ThingDef, int> MaterialCounts {get; set;}
             = new Dictionary<ThingDef, int>();
         public int Total = 0;
+
+        public float GetContentHeight()
+        {
+            return (QualityCounts.Count + MaterialCounts.Count) * 21f + 84f; 
+        }
     }
 }
