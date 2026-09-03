@@ -7,7 +7,7 @@ namespace RaidSummary.UI
     public class RaidSummaryWindow : Window
     {
         private readonly RaidSummaryData summary;
-
+        private Vector2 scrollPosition = Vector2.zero;
         public RaidSummaryWindow(RaidSummaryData summary)
         {
             this.summary = summary;
@@ -25,11 +25,60 @@ namespace RaidSummary.UI
             }
         }
 
+        public void DrawEquipment(Listing_Standard listing, ThingDef eqpDef, EquipmentSummary eqpSummary)
+        {
+            listing.Label($"    {eqpDef.LabelCap}");
+
+            listing.Label($"        Total: {eqpSummary.Total}");
+
+            if(eqpSummary.BiocodedCount > 0)
+            {
+                listing.Label(
+                    $"      Biocoded:  {eqpSummary.BiocodedCount}"
+                );
+
+            }
+
+            listing.Label($"        By Quality:");
+
+            foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
+            {
+                listing.Label(
+                    $"          {quality}:  {qualityCount}"
+                );
+            }
+
+            if(!eqpSummary.MaterialCounts.NullOrEmpty())
+            {
+                listing.Label(
+                    $"        By Material:"
+                );
+
+                foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                {
+                    listing.Label(
+                        $"          {materialDef.LabelCap}: {materialCount}"
+                    );
+                }
+            }
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
+            float contentHeight = 1200f;
+
+            Rect viewRect = new Rect(
+                0f,
+                0f,
+                inRect.width - 20f,
+                contentHeight
+            );
+
+            Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
+
             Listing_Standard listing = new Listing_Standard();
 
-            listing.Begin(inRect);
+            listing.Begin(viewRect);
 
             listing.Label("Raid Summary");
             listing.Gap();
@@ -40,7 +89,26 @@ namespace RaidSummary.UI
 
             listing.Label("Equipment");
 
+            using(var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
+            {
+                while (eqpSummaryEnumerator.MoveNext())
+                {
+                    ThingDef eqpDef = eqpSummaryEnumerator.Current.Key;
+                    EquipmentSummary eqpSummary = eqpSummaryEnumerator.Current.Value;
+
+                    DrawEquipment(listing, eqpDef, eqpSummary);
+                }
+
+                listing.GapLine();
+            }
+
+            listing.GapLine();
+
+            listing.Label("Apparel");
+
             listing.End();
+
+            Widgets.EndScrollView();
         }
     }
 }
