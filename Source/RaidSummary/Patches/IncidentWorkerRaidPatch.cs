@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
+using RaidSummary.UI;
 using RimWorld;
 using Verse;
 
@@ -37,6 +38,9 @@ namespace RaidSummary.Patches
                 }
             }
 
+            Find.WindowStack.Add(
+                new RaidSummaryWindow(summary)
+            );
 
             using (var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
             {

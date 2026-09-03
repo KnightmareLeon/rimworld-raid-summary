@@ -27,7 +27,20 @@ namespace RaidSummary.UI
 
         public override void DoWindowContents(Rect inRect)
         {
+            Listing_Standard listing = new Listing_Standard();
 
+            listing.Begin(inRect);
+
+            listing.Label("Raid Summary");
+            listing.Gap();
+
+            listing.Label($"Pawns: {summary.PawnCount}");
+
+            listing.GapLine();
+
+            listing.Label("Equipment");
+
+            listing.End();
         }
     }
 }
