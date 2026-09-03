@@ -16,7 +16,7 @@ namespace RaidSummary.Models
 
         public float GetContentHeight()
         {
-            return (QualityCounts.Count + MaterialCounts.Count) * 21f + 84f; 
+            return (QualityCounts.Count + MaterialCounts.Count) * 24f + 96f;
         }
     }
 }
