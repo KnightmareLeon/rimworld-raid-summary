@@ -64,16 +64,46 @@ namespace RaidSummary.UI
             }
         }
 
+        public void DrawApparel(Listing_Standard listing, ThingDef appDef, ApparelSummary appSummary)
+        {
+            listing.Label($"    {appDef.LabelCap}");
+
+            listing.Label($"        Total: {appSummary.Total}");
+
+            listing.Label($"        By Quality:");
+
+            foreach (var (quality, qualityCount) in appSummary.QualityCounts)
+            {
+                listing.Label(
+                    $"          {quality}:  {qualityCount}"
+                );
+            }
+
+            if(!appSummary.MaterialCounts.NullOrEmpty())
+            {
+                listing.Label(
+                    $"        By Material:"
+                );
+
+                foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                {
+                    listing.Label(
+                        $"          {materialDef.LabelCap}: {materialCount}"
+                    );
+                }
+            }
+        }
+
         public float ComputeContentHeight()
         {
             float contentHeight = 0f;
-            contentHeight += 21f; // Title heading
-            contentHeight += 21f; // Equipment heading
-            contentHeight += 21f; // Apparel heading
+            contentHeight += 30f; // Title heading
+            contentHeight += 30f; // Equipment heading
+            contentHeight += 30f; // Apparel heading
             if(ModsConfig.BiotechActive)
             {
-                contentHeight += 21f; // Xenotypes heading
-                contentHeight += summary.XenotypeTotal() * 21f;
+                contentHeight += 30f; // Xenotypes heading
+                contentHeight += summary.XenotypeTotal() * 24f;
             }
 
             contentHeight += summary.GetContentHeight();
@@ -108,6 +138,7 @@ namespace RaidSummary.UI
             if(ModsConfig.BiotechActive)
             {
                 listing.Label("Xenotypes");
+
                 using(var xenoTypeEnumerator = summary.XenotypeCountsEnumerator())
                 {
                     while (xenoTypeEnumerator.MoveNext())
@@ -119,6 +150,7 @@ namespace RaidSummary.UI
                     }
 
                 }
+
                 listing.GapLine();
             }
 
@@ -139,6 +171,18 @@ namespace RaidSummary.UI
             listing.GapLine();
 
             listing.Label("Apparel");
+
+            using(var appSummarEnumerator = summary.ApparelSummariesEnumerator())
+            {
+                while (appSummarEnumerator.MoveNext())
+                {
+                    ThingDef appDef = appSummarEnumerator.Current.Key;
+                    ApparelSummary appSummary = appSummarEnumerator.Current.Value;
+
+                    DrawApparel(listing, appDef, appSummary);
+                }
+
+            }
 
             listing.End();
 
