@@ -6,7 +6,7 @@ namespace RaidSummary.Models
 {
     public class RaidSummaryData
     {
-        public int PawnCount {get; set;}
+        public int PawnCount {get; private set;}
         private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
         private readonly Dictionary<ThingDef, ApparelSummary> apparelSummaries
@@ -14,7 +14,23 @@ namespace RaidSummary.Models
         private readonly Dictionary<XenotypeDef, int> xenotypeCounts
             = new Dictionary<XenotypeDef, int>();
 
-        public void UpdateEquipmentSummaries(Thing equipment)
+        public RaidSummaryData(List<Pawn> pawns)
+        {
+            PawnCount = pawns.Count;
+
+            foreach (Pawn pawn in pawns)
+            {
+                UpdateEquipmentSummaries(pawn.equipment?.Primary);
+                UpdateApparelSummaries(pawn.apparel?.WornApparel);
+
+                if (ModsConfig.BiotechActive)
+                {
+                    UpdateXenotypeCount(pawn.genes.Xenotype);
+                }
+            }
+        }
+
+        private void UpdateEquipmentSummaries(Thing equipment)
         {
             if (equipment == null)
                 return;
@@ -61,7 +77,7 @@ namespace RaidSummary.Models
                 equipmentSummary.BiocodedCount += compBiocodable.Biocoded ? 1 : 0;
         }
 
-        public void UpdateApparelSummaries(List<Apparel> wornApparel)
+        private void UpdateApparelSummaries(List<Apparel> wornApparel)
         {
             if (wornApparel.NullOrEmpty())
                 return;
@@ -107,7 +123,7 @@ namespace RaidSummary.Models
 
         }
 
-        public void UpdateXenotypeCount(XenotypeDef xenotype)
+        private void UpdateXenotypeCount(XenotypeDef xenotype)
         {
             if(!xenotypeCounts.ContainsKey(xenotype))
                 xenotypeCounts[xenotype] = 0;
@@ -128,6 +144,31 @@ namespace RaidSummary.Models
         public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator()
         {
             return xenotypeCounts.GetEnumerator();
+        }
+
+        public int EquipmentSummariesCount() => equipmentSummaries.Count;
+        public int ApparelSummariesCount() => apparelSummaries.Count;
+        public int XenotypeTotal() => xenotypeCounts.Count;
+
+        public float GetContentHeight()
+        {
+            float contentHeight = 0f;
+            foreach(EquipmentSummary eqpSummary in equipmentSummaries.Values)
+            {
+                contentHeight += eqpSummary.GetContentHeight();
+            }
+
+            foreach(ApparelSummary apparelSummary in apparelSummaries.Values)
+            {
+                contentHeight += apparelSummary.GetContentHeight();
+            }
+
+            if(ModsConfig.BiotechActive)
+            {
+                contentHeight += xenotypeCounts.Count * 24f + 24f;
+            }
+
+            return contentHeight;
         }
     }
 }

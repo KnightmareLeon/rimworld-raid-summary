@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
+using RaidSummary.UI;
 using RimWorld;
 using Verse;
 
@@ -18,21 +19,7 @@ namespace RaidSummary.Patches
             if (!__result || debugTest || pawns == null)
                 return;
 
-            RaidSummaryData summary = new RaidSummaryData
-            {
-                PawnCount = pawns.Count
-            };
-
-            foreach (Pawn pawn in pawns)
-            {
-                summary.UpdateEquipmentSummaries(pawn.equipment?.Primary);
-                summary.UpdateApparelSummaries(pawn.apparel?.WornApparel);
-
-                if (ModsConfig.BiotechActive)
-                {
-                    summary.UpdateXenotypeCount(pawn.genes.Xenotype);
-                }
-            }
+            RaidSummaryData summary = new RaidSummaryData(pawns);
 
             Log.Message(
                 $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
@@ -51,6 +38,9 @@ namespace RaidSummary.Patches
                 }
             }
 
+            Find.WindowStack.Add(
+                new RaidSummaryWindow(summary)
+            );
 
             using (var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
             {
