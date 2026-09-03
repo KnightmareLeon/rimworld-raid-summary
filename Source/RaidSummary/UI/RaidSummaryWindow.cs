@@ -1,6 +1,7 @@
 using UnityEngine;
 using Verse;
 using RaidSummary.Models;
+using RimWorld;
 
 namespace RaidSummary.UI
 {
@@ -107,7 +108,17 @@ namespace RaidSummary.UI
             if(ModsConfig.BiotechActive)
             {
                 listing.Label("Xenotypes");
+                using(var xenoTypeEnumerator = summary.XenotypeCountsEnumerator())
+                {
+                    while (xenoTypeEnumerator.MoveNext())
+                    {
+                        XenotypeDef xenoDef = xenoTypeEnumerator.Current.Key;
+                        int xenoCount = xenoTypeEnumerator.Current.Value;
 
+                        listing.Label($"    {xenoDef.LabelCap}: {xenoCount}");
+                    }
+
+                }
                 listing.GapLine();
             }
 
