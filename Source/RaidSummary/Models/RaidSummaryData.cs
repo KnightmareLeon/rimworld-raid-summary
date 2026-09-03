@@ -145,5 +145,9 @@ namespace RaidSummary.Models
         {
             return xenotypeCounts.GetEnumerator();
         }
+
+        public int EquipmentSummariesCount() => equipmentSummaries.Count;
+        public int ApparelSummariesCount() => apparelSummaries.Count;
+        public int XenotypeTotal() => xenotypeCounts.Count;
     }
 }
