@@ -165,7 +165,7 @@ namespace RaidSummary.Models
 
             if(ModsConfig.BiotechActive)
             {
-                contentHeight += xenotypeCounts.Count * 24f + 24f;
+                contentHeight += xenotypeCounts.Count * (2f + Text.LineHeight);
             }
 
             return contentHeight;
