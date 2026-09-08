@@ -97,17 +97,20 @@ namespace RaidSummary.UI
         public float ComputeContentHeight()
         {
             float contentHeight = 0f;
-            contentHeight += 30f; // Title heading
-            contentHeight += 30f; // Equipment heading
-            contentHeight += 30f; // Apparel heading
+
+            contentHeight += (2f + Text.LineHeight) * 4; // Title + Equipment + Apparel + Total Headings
+
             if(ModsConfig.BiotechActive)
             {
-                contentHeight += 30f; // Xenotypes heading
-                contentHeight += summary.XenotypeTotal() * 24f;
+                contentHeight += 2f + Text.LineHeight; // Xenotypes heading
+                contentHeight += 15f; // GapLine Height
             }
 
             contentHeight += summary.GetContentHeight();
+            contentHeight += 15f * 2; // GapLine Height
+            contentHeight += 14f; // Gap Height
 
+            contentHeight += 2f + Text.LineHeight; // To be removed later, for testing purpose if height computation is correct.
             return contentHeight;
         }
 
@@ -183,6 +186,8 @@ namespace RaidSummary.UI
                 }
 
             }
+
+            listing.Label("If you are seeing this, you got the content height correct.");
 
             listing.End();
 
