@@ -15,17 +15,5 @@ namespace RaidSummary.Models
         public int BiocodedCount = 0;
         public int Total = 0;
 
-        public float GetContentHeight()
-        {
-            float contentHeight = (QualityCounts.Count + MaterialCounts.Count) * (2f+ Text.LineHeight);
-            contentHeight += (2f + Text.LineHeight) * 3; // Main Header, Total Header, Quality Header
-            
-            if (!MaterialCounts.NullOrEmpty())
-                contentHeight += 2f + Text.LineHeight; // Material Header
-            if (BiocodedCount > 0)
-                contentHeight += 2f + Text.LineHeight; // Biocoded Header
-
-            return contentHeight;
-        }
     }
 }
