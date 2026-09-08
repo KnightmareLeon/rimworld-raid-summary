@@ -1,33 +1,46 @@
 using System.Collections.Generic;
 using Verse;
 using RimWorld;
+using System.Linq.Expressions;
 
 namespace RaidSummary.Models
 {
     public class RaidSummaryData
     {
-        public int PawnCount {get; private set;}
+        public int HumanPawnCount {get; private set;}
+        public int AnimalPawnCount {get; private set;} = 0;
+
         private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
         private readonly Dictionary<ThingDef, ApparelSummary> apparelSummaries
             = new Dictionary<ThingDef, ApparelSummary>();
         private readonly Dictionary<XenotypeDef, int> xenotypeCounts
             = new Dictionary<XenotypeDef, int>();
+        private readonly Dictionary<PawnKindDef, int> animalCounts
+            = new Dictionary<PawnKindDef, int>();
 
         public RaidSummaryData(List<Pawn> pawns)
         {
-            PawnCount = pawns.Count;
 
             foreach (Pawn pawn in pawns)
             {
-                UpdateEquipmentSummaries(pawn.equipment?.Primary);
-                UpdateApparelSummaries(pawn.apparel?.WornApparel);
-
-                if (ModsConfig.BiotechActive)
+                if (pawn.IsAnimal)
                 {
-                    UpdateXenotypeCount(pawn.genes.Xenotype);
+                    UpdateAnimalCount(pawn.kindDef);
+                }
+                else
+                {
+                    UpdateEquipmentSummaries(pawn.equipment?.Primary);
+                    UpdateApparelSummaries(pawn.apparel?.WornApparel);
+
+                    if (ModsConfig.BiotechActive)
+                    {
+                        UpdateXenotypeCount(pawn.genes.Xenotype);
+                    }
                 }
             }
+
+            HumanPawnCount = pawns.Count - AnimalPawnCount;
         }
 
         private void UpdateEquipmentSummaries(Thing equipment)
@@ -131,6 +144,16 @@ namespace RaidSummary.Models
             xenotypeCounts[xenotype]++;
         }
 
+        private void UpdateAnimalCount(PawnKindDef animalDef)
+        {
+            if(!animalCounts.ContainsKey(animalDef))
+                animalCounts[animalDef] = 0;
+
+            animalCounts[animalDef]++;
+
+            AnimalPawnCount++;
+        }
+
         public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator()
         {
             return equipmentSummaries.GetEnumerator();
@@ -144,6 +167,11 @@ namespace RaidSummary.Models
         public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator()
         {
             return xenotypeCounts.GetEnumerator();
+        }
+
+        public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator()
+        {
+            return animalCounts.GetEnumerator();
         }
 
         public int EquipmentSummariesCount() => equipmentSummaries.Count;
@@ -166,6 +194,11 @@ namespace RaidSummary.Models
             if(ModsConfig.BiotechActive)
             {
                 contentHeight += xenotypeCounts.Count * (2f + Text.LineHeight);
+            }
+
+            if(animalCounts.Count > 0)
+            {
+                contentHeight += animalCounts.Count * (2f + Text.LineHeight);
             }
 
             return contentHeight;

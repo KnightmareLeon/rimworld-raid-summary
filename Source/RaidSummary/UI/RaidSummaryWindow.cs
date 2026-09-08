@@ -35,7 +35,7 @@ namespace RaidSummary.UI
             if(eqpSummary.BiocodedCount > 0)
             {
                 listing.Label(
-                    $"      Biocoded:  {eqpSummary.BiocodedCount}"
+                    $"          Biocoded:  {eqpSummary.BiocodedCount}"
                 );
 
             }
@@ -98,15 +98,20 @@ namespace RaidSummary.UI
         {
             float contentHeight = 0f;
 
-            contentHeight += (2f + Text.LineHeight) * 4; // Title + Equipment + Apparel + Total Headings
+            contentHeight += (2f + Text.LineHeight) * 5; // Title + Equipment + Apparel + Total Human and Animal Headings
 
             if(ModsConfig.BiotechActive)
             {
                 contentHeight += 2f + Text.LineHeight; // Xenotypes heading
                 contentHeight += 15f; // GapLine Height
             }
+            if(summary.AnimalPawnCount > 0)
+            {
+                contentHeight += 2f + Text.LineHeight; // Animals heading
+                contentHeight += 15f; // GapLine Height
+            }
 
-            contentHeight += summary.GetContentHeight();
+            contentHeight += summary.GetContentHeight(); // All content aside headers
             contentHeight += 15f * 2; // GapLine Height
             contentHeight += 14f; // Gap Height
 
@@ -134,7 +139,8 @@ namespace RaidSummary.UI
             listing.Label("Raid Summary");
             listing.Gap();
 
-            listing.Label($"Pawns: {summary.PawnCount}");
+            listing.Label($"Human Pawns: {summary.HumanPawnCount}");
+            listing.Label($"Animal Pawns: {summary.AnimalPawnCount}");
             
             listing.GapLine();
 
@@ -185,6 +191,24 @@ namespace RaidSummary.UI
                     DrawApparel(listing, appDef, appSummary);
                 }
 
+            }
+
+            if(summary.AnimalPawnCount > 0)
+            {
+                listing.GapLine();
+
+                listing.Label("Animals");
+
+                using(var animalCountsEnum = summary.AnimalCountsEnumerator())
+                {
+                    while (animalCountsEnum.MoveNext())
+                    {
+                        PawnKindDef animalDef = animalCountsEnum.Current.Key;
+                        int animalCount = animalCountsEnum.Current.Value;
+
+                        listing.Label($"    {animalDef.LabelCap}: {animalCount}");
+                    }
+                }
             }
 
             listing.Label("If you are seeing this, you got the content height correct.");
