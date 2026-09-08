@@ -14,15 +14,5 @@ namespace RaidSummary.Models
             = new Dictionary<ThingDef, int>();
         public int Total = 0;
 
-        public float GetContentHeight()
-        {
-            float contentHeight = (QualityCounts.Count + MaterialCounts.Count) * (2f+ Text.LineHeight);
-            contentHeight += (2f + Text.LineHeight) * 3; // Main Header, Total Header, Quality Header
-            
-            if (!MaterialCounts.NullOrEmpty())
-                contentHeight += 2f + Text.LineHeight; // Material Header
-
-            return contentHeight;
-        }
     }
 }

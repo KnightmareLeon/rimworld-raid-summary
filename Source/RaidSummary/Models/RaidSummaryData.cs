@@ -178,30 +178,5 @@ namespace RaidSummary.Models
         public int ApparelSummariesCount() => apparelSummaries.Count;
         public int XenotypeTotal() => xenotypeCounts.Count;
 
-        public float GetContentHeight()
-        {
-            float contentHeight = 0f;
-            foreach(EquipmentSummary eqpSummary in equipmentSummaries.Values)
-            {
-                contentHeight += eqpSummary.GetContentHeight();
-            }
-
-            foreach(ApparelSummary apparelSummary in apparelSummaries.Values)
-            {
-                contentHeight += apparelSummary.GetContentHeight();
-            }
-
-            if(ModsConfig.BiotechActive)
-            {
-                contentHeight += xenotypeCounts.Count * (2f + Text.LineHeight);
-            }
-
-            if(animalCounts.Count > 0)
-            {
-                contentHeight += animalCounts.Count * (2f + Text.LineHeight);
-            }
-
-            return contentHeight;
-        }
     }
 }
