@@ -8,10 +8,25 @@ namespace RaidSummary.UI
     public class RaidSummaryWindow : Window
     {
         private readonly RaidSummaryData summary;
+
         private Vector2 scrollPosition = Vector2.zero;
+        private float viewHeight;
+
+        private const int OpenMask = 1;
+
+        private readonly TreeNode xenotypeNode = new TreeNode();
+        private readonly TreeNode equipmentNode = new TreeNode();
+        private readonly TreeNode apparelNode = new TreeNode();
+        private readonly TreeNode animalNode = new TreeNode();
+
         public RaidSummaryWindow(RaidSummaryData summary)
         {
             this.summary = summary;
+
+            xenotypeNode.SetOpen(OpenMask, true);
+            equipmentNode.SetOpen(OpenMask, true);
+            apparelNode.SetOpen(OpenMask, true);
+            animalNode.SetOpen(OpenMask, true);
 
             doCloseX = true;
             draggable = true;
@@ -26,194 +41,173 @@ namespace RaidSummary.UI
             }
         }
 
-        public void DrawEquipment(Listing_Standard listing, ThingDef eqpDef, EquipmentSummary eqpSummary)
+        private void DrawEquipment(RaidSummaryListing listing, ThingDef eqpDef, EquipmentSummary eqpSummary, int indentLevel)
         {
-            listing.Label($"    {eqpDef.LabelCap}");
+            listing.DrawLabel(eqpDef.LabelCap, indentLevel);
 
-            listing.Label($"        Total: {eqpSummary.Total}");
+            listing.DrawLabel($"Total: {eqpSummary.Total}",indentLevel + 1);
 
-            if(eqpSummary.BiocodedCount > 0)
-            {
-                listing.Label(
-                    $"          Biocoded:  {eqpSummary.BiocodedCount}"
-                );
+            if (eqpSummary.BiocodedCount > 0)
+                listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}",indentLevel + 1);
 
-            }
-
-            listing.Label($"        By Quality:");
+            listing.DrawLabel("By Quality:", indentLevel + 1);
 
             foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
-            {
-                listing.Label(
-                    $"          {quality}:  {qualityCount}"
-                );
-            }
+                listing.DrawLabel($"{quality}: {qualityCount}", indentLevel + 2);
 
-            if(!eqpSummary.MaterialCounts.NullOrEmpty())
+            if (!eqpSummary.MaterialCounts.NullOrEmpty())
             {
-                listing.Label(
-                    $"        By Material:"
-                );
+                listing.DrawLabel("By Material:", indentLevel + 1);
 
                 foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
-                {
-                    listing.Label(
-                        $"          {materialDef.LabelCap}: {materialCount}"
-                    );
-                }
+                    listing.DrawLabel($"{materialDef.LabelCap}: {materialCount}", indentLevel + 2);
             }
         }
 
-        public void DrawApparel(Listing_Standard listing, ThingDef appDef, ApparelSummary appSummary)
+        private void DrawApparel(RaidSummaryListing listing, ThingDef appDef, ApparelSummary appSummary, int indentLevel)
         {
-            listing.Label($"    {appDef.LabelCap}");
+            listing.DrawLabel(appDef.LabelCap, indentLevel);
 
-            listing.Label($"        Total: {appSummary.Total}");
+            listing.DrawLabel($"Total: {appSummary.Total}", indentLevel + 1);
 
-            listing.Label($"        By Quality:");
+            listing.DrawLabel("By Quality:", indentLevel + 1);
 
             foreach (var (quality, qualityCount) in appSummary.QualityCounts)
-            {
-                listing.Label(
-                    $"          {quality}:  {qualityCount}"
-                );
-            }
+                listing.DrawLabel($"{quality}: {qualityCount}", indentLevel + 2);
 
-            if(!appSummary.MaterialCounts.NullOrEmpty())
+            if (!appSummary.MaterialCounts.NullOrEmpty())
             {
-                listing.Label(
-                    $"        By Material:"
-                );
+                listing.DrawLabel("By Material:", indentLevel + 1);
 
                 foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
-                {
-                    listing.Label(
-                        $"          {materialDef.LabelCap}: {materialCount}"
-                    );
-                }
+                    listing.DrawLabel($"{materialDef.LabelCap}: {materialCount}", indentLevel + 2);
             }
         }
 
-        public float ComputeContentHeight()
+        private void DrawContents(RaidSummaryListing listing)
         {
-            float contentHeight = 0f;
+            listing.DrawLabel("Raid Summary", 0);
 
-            contentHeight += (2f + Text.LineHeight) * 5; // Title + Equipment + Apparel + Total Human and Animal Headings
+            listing.Gap();
 
-            if(ModsConfig.BiotechActive)
+            listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", 0);
+
+            listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", 0);
+
+            listing.GapLine();
+
+            if (ModsConfig.BiotechActive)
             {
-                contentHeight += 2f + Text.LineHeight; // Xenotypes heading
-                contentHeight += 15f; // GapLine Height
+                listing.DrawSection(xenotypeNode, "Xenotypes", 0, OpenMask);
+
+                if (xenotypeNode.IsOpen(OpenMask))
+                {
+                    using (var enumerator = summary.XenotypeCountsEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            XenotypeDef xenoDef = enumerator.Current.Key;
+                            int xenoCount = enumerator.Current.Value;
+
+                            listing.DrawLabel($"{xenoDef.LabelCap}: {xenoCount}", 1);
+                        }
+                    }
+                }
+
+                listing.GapLine();
             }
-            if(summary.AnimalPawnCount > 0)
+
+            listing.DrawSection(equipmentNode, "Equipment", 0, OpenMask);
+
+            if (equipmentNode.IsOpen(OpenMask))
             {
-                contentHeight += 2f + Text.LineHeight; // Animals heading
-                contentHeight += 15f; // GapLine Height
+                using (var enumerator = summary.EquipmentSummariesEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        ThingDef eqpDef =enumerator.Current.Key;
+
+                        EquipmentSummary eqpSummary = enumerator.Current.Value;
+
+                        DrawEquipment(listing,eqpDef,eqpSummary, 1);
+                    }
+                }
             }
 
-            contentHeight += summary.GetContentHeight(); // All content aside headers
-            contentHeight += 15f * 2; // GapLine Height
-            contentHeight += 14f; // Gap Height
+            listing.GapLine();
 
-            contentHeight += 2f + Text.LineHeight; // To be removed later, for testing purpose if height computation is correct.
-            return contentHeight;
+            listing.DrawSection(apparelNode,"Apparel",0,OpenMask);
+
+            if (apparelNode.IsOpen(OpenMask))
+            {
+                using (var enumerator = summary.ApparelSummariesEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        ThingDef appDef = enumerator.Current.Key;
+                        ApparelSummary appSummary = enumerator.Current.Value;
+
+                        DrawApparel(listing, appDef, appSummary,1);
+                    }
+                }
+            }
+
+            if (summary.AnimalPawnCount > 0)
+            {
+                listing.GapLine();
+
+                listing.DrawSection(animalNode, "Animals", 0, OpenMask);
+
+                if (animalNode.IsOpen(OpenMask))
+                {
+                    using (var enumerator = summary.AnimalCountsEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            PawnKindDef animalDef = enumerator.Current.Key;
+                            int animalCount =enumerator.Current.Value;
+
+                            listing.DrawLabel($"{animalDef.LabelCap}: {animalCount}", 1);
+                        }
+                    }
+                }
+            }
         }
 
         public override void DoWindowContents(Rect inRect)
         {
-            float contentHeight = ComputeContentHeight();
+            float width = inRect.width - 16f;
 
             Rect viewRect = new Rect(
                 0f,
                 0f,
-                inRect.width - 20f,
-                contentHeight
+                width,
+                viewHeight
             );
 
-            Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(
+                inRect,
+                ref scrollPosition,
+                viewRect
+            );
 
-            Listing_Standard listing = new Listing_Standard();
+            Rect listingRect = new Rect(
+                0f,
+                0f,
+                viewRect.width,
+                99999f
+            );
 
-            listing.Begin(viewRect);
+            RaidSummaryListing listing = new RaidSummaryListing();
 
-            listing.Label("Raid Summary");
-            listing.Gap();
+            listing.Begin(listingRect);
 
-            listing.Label($"Human Pawns: {summary.HumanPawnCount}");
-            listing.Label($"Animal Pawns: {summary.AnimalPawnCount}");
-            
-            listing.GapLine();
-
-            if(ModsConfig.BiotechActive)
-            {
-                listing.Label("Xenotypes");
-
-                using(var xenoTypeEnumerator = summary.XenotypeCountsEnumerator())
-                {
-                    while (xenoTypeEnumerator.MoveNext())
-                    {
-                        XenotypeDef xenoDef = xenoTypeEnumerator.Current.Key;
-                        int xenoCount = xenoTypeEnumerator.Current.Value;
-
-                        listing.Label($"    {xenoDef.LabelCap}: {xenoCount}");
-                    }
-
-                }
-
-                listing.GapLine();
-            }
-
-            listing.Label("Equipment");
-
-            using(var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
-            {
-                while (eqpSummaryEnumerator.MoveNext())
-                {
-                    ThingDef eqpDef = eqpSummaryEnumerator.Current.Key;
-                    EquipmentSummary eqpSummary = eqpSummaryEnumerator.Current.Value;
-
-                    DrawEquipment(listing, eqpDef, eqpSummary);
-                }
-
-            }
-
-            listing.GapLine();
-
-            listing.Label("Apparel");
-
-            using(var appSummarEnumerator = summary.ApparelSummariesEnumerator())
-            {
-                while (appSummarEnumerator.MoveNext())
-                {
-                    ThingDef appDef = appSummarEnumerator.Current.Key;
-                    ApparelSummary appSummary = appSummarEnumerator.Current.Value;
-
-                    DrawApparel(listing, appDef, appSummary);
-                }
-
-            }
-
-            if(summary.AnimalPawnCount > 0)
-            {
-                listing.GapLine();
-
-                listing.Label("Animals");
-
-                using(var animalCountsEnum = summary.AnimalCountsEnumerator())
-                {
-                    while (animalCountsEnum.MoveNext())
-                    {
-                        PawnKindDef animalDef = animalCountsEnum.Current.Key;
-                        int animalCount = animalCountsEnum.Current.Value;
-
-                        listing.Label($"    {animalDef.LabelCap}: {animalCount}");
-                    }
-                }
-            }
-
-            listing.Label("If you are seeing this, you got the content height correct.");
+            DrawContents(listing);
 
             listing.End();
+
+            if (Event.current.type == EventType.Layout)
+                viewHeight = listing.CurHeight;
 
             Widgets.EndScrollView();
         }
