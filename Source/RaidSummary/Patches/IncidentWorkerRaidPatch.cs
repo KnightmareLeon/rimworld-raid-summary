@@ -22,7 +22,7 @@ namespace RaidSummary.Patches
             RaidSummaryData summary = new RaidSummaryData(pawns);
 
             Log.Message(
-                $"[Raid Summary] Raid generated with {summary.PawnCount} pawns."
+                $"[Raid Summary] Raid generated with {summary.HumanPawnCount} pawns."
             );
 
             if(ModsConfig.BiotechActive)
