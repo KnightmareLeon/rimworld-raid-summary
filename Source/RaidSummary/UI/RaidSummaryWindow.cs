@@ -172,9 +172,9 @@ namespace RaidSummary.UI
                         while (enumerator.MoveNext())
                         {
                             PawnKindDef animalDef = enumerator.Current.Key;
-                            int animalCount =enumerator.Current.Value;
+                            int animalCount = enumerator.Current.Value;
 
-                            listing.DrawLabel($"{animalDef.LabelCap}: {animalCount}", 1);
+                            listing.DrawLabelForPawnKind(animalDef, 1, extraInfo:$": {animalCount}");
                         }
                     }
                 }

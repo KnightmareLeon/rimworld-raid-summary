@@ -37,6 +37,14 @@ namespace RaidSummary.UI
             DrawLabel(xDef.LabelCap + extraInfo, indentLevel);          
         }
 
+        public void DrawLabelForPawnKind(PawnKindDef pkDef, int indentLevel, string extraInfo = "")
+        {
+            if (pkDef.race.uiIcon != null && pkDef.race.uiIcon != BaseContent.BadTex)
+                indentLevel++;
+				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), pkDef, null, 1f, null, drawPlaceholder: true);
+            DrawLabel(pkDef.LabelCap + extraInfo, indentLevel);  
+        }
+
         public void DrawSection(TreeNode node, string label, int indentLevel, int openMask)
         {
             OpenCloseWidget(node, indentLevel, openMask);
