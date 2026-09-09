@@ -24,9 +24,9 @@ namespace RaidSummary.UI
             this.summary = summary;
 
             xenotypeNode.SetOpen(OpenMask, true);
-            equipmentNode.SetOpen(OpenMask, true);
-            apparelNode.SetOpen(OpenMask, true);
-            animalNode.SetOpen(OpenMask, true);
+            equipmentNode.SetOpen(OpenMask, false);
+            apparelNode.SetOpen(OpenMask, false);
+            animalNode.SetOpen(OpenMask, false);
 
             doCloseX = true;
             draggable = true;
@@ -43,24 +43,27 @@ namespace RaidSummary.UI
 
         private void DrawEquipment(RaidSummaryListing listing, ThingDef eqpDef, EquipmentSummary eqpSummary, int indentLevel)
         {
-            listing.DrawLabel(eqpDef.LabelCap, indentLevel);
+            int eqpIndentLevel = indentLevel;
+            listing.DrawLabelForThing(eqpDef, ref eqpIndentLevel);
 
-            listing.DrawLabel($"Total: {eqpSummary.Total}",indentLevel + 1);
+            listing.DrawLabel($"Total: {eqpSummary.Total}", eqpIndentLevel + 1);
 
             if (eqpSummary.BiocodedCount > 0)
-                listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}",indentLevel + 1);
+                listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
 
-            listing.DrawLabel("By Quality:", indentLevel + 1);
+            listing.DrawLabel("By Quality:", eqpIndentLevel + 1);
 
             foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
-                listing.DrawLabel($"{quality}: {qualityCount}", indentLevel + 2);
+                listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
 
             if (!eqpSummary.MaterialCounts.NullOrEmpty())
             {
-                listing.DrawLabel("By Material:", indentLevel + 1);
-
+                listing.DrawLabel("By Material:", eqpIndentLevel + 1);
                 foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
-                    listing.DrawLabel($"{materialDef.LabelCap}: {materialCount}", indentLevel + 2);
+                {
+                    int matIndentLevel = eqpIndentLevel + 3;
+                    listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                }
             }
         }
 
