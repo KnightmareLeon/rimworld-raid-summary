@@ -69,21 +69,25 @@ namespace RaidSummary.UI
 
         private void DrawApparel(RaidSummaryListing listing, ThingDef appDef, ApparelSummary appSummary, int indentLevel)
         {
-            listing.DrawLabel(appDef.LabelCap, indentLevel);
+            int appIndentLevel = indentLevel;
+            listing.DrawLabelForThing(appDef, ref appIndentLevel);
 
-            listing.DrawLabel($"Total: {appSummary.Total}", indentLevel + 1);
+            listing.DrawLabel($"Total: {appSummary.Total}", appIndentLevel + 1);
 
-            listing.DrawLabel("By Quality:", indentLevel + 1);
+            listing.DrawLabel("By Quality:", appIndentLevel + 1);
 
             foreach (var (quality, qualityCount) in appSummary.QualityCounts)
-                listing.DrawLabel($"{quality}: {qualityCount}", indentLevel + 2);
+                listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
 
             if (!appSummary.MaterialCounts.NullOrEmpty())
             {
-                listing.DrawLabel("By Material:", indentLevel + 1);
+                listing.DrawLabel("By Material:", appIndentLevel + 1);
 
                 foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
-                    listing.DrawLabel($"{materialDef.LabelCap}: {materialCount}", indentLevel + 2);
+                {
+                    int matIndentLevel = appIndentLevel + 3;
+                    listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                }
             }
         }
 
