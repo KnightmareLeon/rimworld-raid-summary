@@ -116,7 +116,7 @@ namespace RaidSummary.UI
                             XenotypeDef xenoDef = enumerator.Current.Key;
                             int xenoCount = enumerator.Current.Value;
 
-                            listing.DrawLabel($"{xenoDef.LabelCap}: {xenoCount}", 1);
+                            listing.DrawLabelForXenotype(xenoDef, 1, extraInfo: $": {xenoCount}");
                         }
                     }
                 }

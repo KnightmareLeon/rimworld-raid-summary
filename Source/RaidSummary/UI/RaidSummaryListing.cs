@@ -1,3 +1,4 @@
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -25,8 +26,15 @@ namespace RaidSummary.UI
             if (tDef.uiIcon != null && tDef.uiIcon != BaseContent.BadTex)
                 indentLevel++;
 				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), tDef, null, 1f, null, drawPlaceholder: true);
-            LabelLeft(tDef.LabelCap + extraInfo, null, indentLevel);
-            EndLine();
+            DrawLabel(tDef.LabelCap + extraInfo, indentLevel);
+        }
+
+        public void DrawLabelForXenotype(XenotypeDef xDef, int indentLevel, string extraInfo = "")
+        {
+            if (xDef.Icon != null && xDef.Icon != BaseContent.BadTex)
+                indentLevel++;
+				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), xDef, null, 1f, null, drawPlaceholder: true);
+            DrawLabel(xDef.LabelCap + extraInfo, indentLevel);          
         }
 
         public void DrawSection(TreeNode node, string label, int indentLevel, int openMask)
