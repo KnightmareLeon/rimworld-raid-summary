@@ -18,6 +18,7 @@ namespace RaidSummary.UI
         private readonly ThingRootSummaryNode rootEquipmentNode = new ThingRootSummaryNode();
         private readonly ThingRootSummaryNode rootApparelNode = new ThingRootSummaryNode();
         private readonly TreeNode animalNode = new TreeNode();
+        private readonly TreeNode mechanoidNode = new TreeNode();
 
         public RaidSummaryWindow(RaidSummaryData summary)
         {
@@ -137,6 +138,8 @@ namespace RaidSummary.UI
 
             listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", 0);
 
+            listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", 0);
+
             listing.GapLine();
 
             if (ModsConfig.BiotechActive)
@@ -211,6 +214,27 @@ namespace RaidSummary.UI
                             int animalCount = enumerator.Current.Value;
 
                             listing.DrawLabelForPawnKind(animalDef, 1, extraInfo:$": {animalCount}");
+                        }
+                    }
+                }
+            }
+
+            if(summary.MechanoidCount > 0)
+            {
+                listing.GapLine();
+
+                listing.DrawSection(mechanoidNode, "Mechanoids", 0, OpenMask);
+
+                if (mechanoidNode.IsOpen(OpenMask))
+                {
+                    using (var enumerator = summary.MechanoidCountsEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            PawnKindDef mechaDef = enumerator.Current.Key;
+                            int mechaCount = enumerator.Current.Value;
+
+                            listing.DrawLabelForPawnKind(mechaDef, 1, extraInfo:$": {mechaCount}");
                         }
                     }
                 }
