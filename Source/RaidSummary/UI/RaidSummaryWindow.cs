@@ -130,21 +130,21 @@ namespace RaidSummary.UI
 
         private void DrawContents(RaidSummaryListing listing)
         {
-            listing.DrawLabel("Raid Summary", 0);
+            int indentLevel = 0;
+
+            listing.DrawLabel("Raid Summary", indentLevel);
 
             listing.Gap();
 
-            listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", 0);
-
-            listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", 0);
-
-            listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", 0);
+            listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", indentLevel);
+            listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", indentLevel);
+            listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", indentLevel);
 
             listing.GapLine();
 
-            if (ModsConfig.BiotechActive)
+            if (ModsConfig.BiotechActive && summary.HumanPawnCount > 0)
             {
-                listing.DrawSection(xenotypeNode, "Xenotypes", 0, OpenMask);
+                listing.DrawSection(xenotypeNode, "Xenotypes", indentLevel, OpenMask);
 
                 if (xenotypeNode.IsOpen(OpenMask))
                 {
@@ -155,7 +155,7 @@ namespace RaidSummary.UI
                             XenotypeDef xenoDef = enumerator.Current.Key;
                             int xenoCount = enumerator.Current.Value;
 
-                            listing.DrawLabelForXenotype(xenoDef, 1, extraInfo: $": {xenoCount}");
+                            listing.DrawLabelForXenotype(xenoDef, indentLevel + 1, extraInfo: $": {xenoCount}");
                         }
                     }
                 }
@@ -163,37 +163,40 @@ namespace RaidSummary.UI
                 listing.GapLine();
             }
 
-            listing.DrawSection(rootEquipmentNode, "Equipment", 0, OpenMask);
-
-            if (rootEquipmentNode.IsOpen(OpenMask))
+            if (summary.HumanPawnCount > 0)
             {
-                using (var enumerator = summary.EquipmentSummariesEnumerator())
+                listing.DrawSection(rootEquipmentNode, "Equipment", indentLevel, OpenMask);
+
+                if (rootEquipmentNode.IsOpen(OpenMask))
                 {
-                    while (enumerator.MoveNext())
+                    using (var enumerator = summary.EquipmentSummariesEnumerator())
                     {
-                        ThingDef eqpDef = enumerator.Current.Key;
+                        while (enumerator.MoveNext())
+                        {
+                            ThingDef eqpDef = enumerator.Current.Key;
 
-                        EquipmentSummary eqpSummary = enumerator.Current.Value;
+                            EquipmentSummary eqpSummary = enumerator.Current.Value;
 
-                        DrawEquipment(listing,eqpDef,eqpSummary, 1);
+                            DrawEquipment(listing, eqpDef, eqpSummary, indentLevel + 1);
+                        }
                     }
                 }
-            }
 
-            listing.GapLine();
+                listing.GapLine();
 
-            listing.DrawSection(rootApparelNode,"Apparel",0,OpenMask);
+                listing.DrawSection(rootApparelNode, "Apparel", indentLevel, OpenMask);
 
-            if (rootApparelNode.IsOpen(OpenMask))
-            {
-                using (var enumerator = summary.ApparelSummariesEnumerator())
+                if (rootApparelNode.IsOpen(OpenMask))
                 {
-                    while (enumerator.MoveNext())
+                    using (var enumerator = summary.ApparelSummariesEnumerator())
                     {
-                        ThingDef appDef = enumerator.Current.Key;
-                        ApparelSummary appSummary = enumerator.Current.Value;
+                        while (enumerator.MoveNext())
+                        {
+                            ThingDef appDef = enumerator.Current.Key;
+                            ApparelSummary appSummary = enumerator.Current.Value;
 
-                        DrawApparel(listing, appDef, appSummary,1);
+                            DrawApparel(listing, appDef, appSummary, indentLevel + 1);
+                        }
                     }
                 }
             }
@@ -202,7 +205,7 @@ namespace RaidSummary.UI
             {
                 listing.GapLine();
 
-                listing.DrawSection(animalNode, "Animals", 0, OpenMask);
+                listing.DrawSection(animalNode, "Animals", indentLevel, OpenMask);
 
                 if (animalNode.IsOpen(OpenMask))
                 {
@@ -213,7 +216,7 @@ namespace RaidSummary.UI
                             PawnKindDef animalDef = enumerator.Current.Key;
                             int animalCount = enumerator.Current.Value;
 
-                            listing.DrawLabelForPawnKind(animalDef, 1, extraInfo:$": {animalCount}");
+                            listing.DrawLabelForPawnKind(animalDef, indentLevel + 1, extraInfo:$": {animalCount}");
                         }
                     }
                 }
@@ -223,7 +226,7 @@ namespace RaidSummary.UI
             {
                 listing.GapLine();
 
-                listing.DrawSection(mechanoidNode, "Mechanoids", 0, OpenMask);
+                listing.DrawSection(mechanoidNode, "Mechanoids", indentLevel, OpenMask);
 
                 if (mechanoidNode.IsOpen(OpenMask))
                 {
@@ -234,7 +237,7 @@ namespace RaidSummary.UI
                             PawnKindDef mechaDef = enumerator.Current.Key;
                             int mechaCount = enumerator.Current.Value;
 
-                            listing.DrawLabelForPawnKind(mechaDef, 1, extraInfo:$": {mechaCount}");
+                            listing.DrawLabelForPawnKind(mechaDef, indentLevel + 1, extraInfo:$": {mechaCount}");
                         }
                     }
                 }
@@ -262,7 +265,7 @@ namespace RaidSummary.UI
                 0f,
                 0f,
                 viewRect.width,
-                99999f
+                3000f
             );
 
             RaidSummaryListing listing = new RaidSummaryListing();
