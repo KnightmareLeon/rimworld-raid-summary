@@ -15,8 +15,8 @@ namespace RaidSummary.UI
         private const int OpenMask = 1;
 
         private readonly TreeNode xenotypeNode = new TreeNode();
-        private readonly TreeNode equipmentNode = new TreeNode();
-        private readonly TreeNode apparelNode = new TreeNode();
+        private readonly ThingRootSummaryNode rootEquipmentNode = new ThingRootSummaryNode();
+        private readonly ThingRootSummaryNode rootApparelNode = new ThingRootSummaryNode();
         private readonly TreeNode animalNode = new TreeNode();
 
         public RaidSummaryWindow(RaidSummaryData summary)
@@ -24,9 +24,18 @@ namespace RaidSummary.UI
             this.summary = summary;
 
             xenotypeNode.SetOpen(OpenMask, true);
-            equipmentNode.SetOpen(OpenMask, false);
-            apparelNode.SetOpen(OpenMask, false);
+            rootEquipmentNode.SetOpen(OpenMask, false);
+            rootEquipmentNode.SetOpen(OpenMask, false);
             animalNode.SetOpen(OpenMask, false);
+
+            using (var enumerator = summary.EquipmentSummariesEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    ThingDef eqpDef = enumerator.Current.Key;
+                    rootEquipmentNode.AddThingSummaryNode(eqpDef, OpenMask);
+                }
+            }
 
             doCloseX = true;
             draggable = true;
@@ -44,25 +53,31 @@ namespace RaidSummary.UI
         private void DrawEquipment(RaidSummaryListing listing, ThingDef eqpDef, EquipmentSummary eqpSummary, int indentLevel)
         {
             int eqpIndentLevel = indentLevel;
-            listing.DrawLabelForThing(eqpDef, ref eqpIndentLevel);
 
-            listing.DrawLabel($"Total: {eqpSummary.Total}", eqpIndentLevel + 1);
+            ThingSummaryNode eqpNode = rootEquipmentNode.GetThingSummaryNode(eqpDef);
 
-            if (eqpSummary.BiocodedCount > 0)
-                listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
-
-            listing.DrawLabel("By Quality:", eqpIndentLevel + 1);
-
-            foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
-                listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
-
-            if (!eqpSummary.MaterialCounts.NullOrEmpty())
+            listing.DrawSectionForThing(eqpNode, eqpDef, ref eqpIndentLevel, OpenMask);
+            
+            if (eqpNode.IsOpen(OpenMask))
             {
-                listing.DrawLabel("By Material:", eqpIndentLevel + 1);
-                foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                listing.DrawLabel($"Total: {eqpSummary.Total}", eqpIndentLevel + 1);
+
+                if (eqpSummary.BiocodedCount > 0)
+                    listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
+
+                listing.DrawLabel("By Quality:", eqpIndentLevel + 1);
+
+                foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
+                    listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
+
+                if (!eqpSummary.MaterialCounts.NullOrEmpty())
                 {
-                    int matIndentLevel = eqpIndentLevel + 3;
-                    listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                    listing.DrawLabel("By Material:", eqpIndentLevel + 1);
+                    foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                    {
+                        int matIndentLevel = eqpIndentLevel + 3;
+                        listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                    }
                 }
             }
         }
@@ -124,9 +139,9 @@ namespace RaidSummary.UI
                 listing.GapLine();
             }
 
-            listing.DrawSection(equipmentNode, "Equipment", 0, OpenMask);
+            listing.DrawSection(rootEquipmentNode, "Equipment", 0, OpenMask);
 
-            if (equipmentNode.IsOpen(OpenMask))
+            if (rootEquipmentNode.IsOpen(OpenMask))
             {
                 using (var enumerator = summary.EquipmentSummariesEnumerator())
                 {
@@ -143,9 +158,9 @@ namespace RaidSummary.UI
 
             listing.GapLine();
 
-            listing.DrawSection(apparelNode,"Apparel",0,OpenMask);
+            listing.DrawSection(rootApparelNode,"Apparel",0,OpenMask);
 
-            if (apparelNode.IsOpen(OpenMask))
+            if (rootApparelNode.IsOpen(OpenMask))
             {
                 using (var enumerator = summary.ApparelSummariesEnumerator())
                 {
