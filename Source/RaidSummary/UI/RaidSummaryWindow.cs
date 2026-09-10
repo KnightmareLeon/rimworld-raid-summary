@@ -65,12 +65,10 @@ namespace RaidSummary.UI
 
             ThingSummaryNode eqpNode = rootEquipmentNode.GetThingSummaryNode(eqpDef);
 
-            listing.DrawSectionForThing(eqpNode, eqpDef, ref eqpIndentLevel, OpenMask);
+            listing.DrawSectionForThing(eqpNode, eqpDef, ref eqpIndentLevel, OpenMask, extraInfo: $": {eqpSummary.Total}");
             
             if (eqpNode.IsOpen(OpenMask))
             {
-                listing.DrawLabel($"Total: {eqpSummary.Total}", eqpIndentLevel + 1);
-
                 if (eqpSummary.BiocodedCount > 0)
                     listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
 
@@ -95,12 +93,10 @@ namespace RaidSummary.UI
         {
             int appIndentLevel = indentLevel;
             ThingSummaryNode appNode = rootApparelNode.GetThingSummaryNode(appDef); 
-            listing.DrawSectionForThing(appNode, appDef, ref appIndentLevel, OpenMask);
+            listing.DrawSectionForThing(appNode, appDef, ref appIndentLevel, OpenMask, extraInfo: $": {appSummary.Total}");
 
             if(appNode.IsOpen(OpenMask))
             {
-                listing.DrawLabel($"Total: {appSummary.Total}", appIndentLevel + 1);
-
                 listing.DrawLabel("By Quality:", appIndentLevel + 1);
 
                 foreach (var (quality, qualityCount) in appSummary.QualityCounts)
