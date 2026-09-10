@@ -52,5 +52,12 @@ namespace RaidSummary.UI
             LabelLeft(label, null, indentLevel);
             EndLine();
         }
+
+        public void DrawSectionForThing(TreeNode node, ThingDef tDef, ref int indentLevel, int openMask)
+        {
+            OpenCloseWidget(node, indentLevel, openMask);
+            indentLevel++;
+            DrawLabelForThing(tDef, ref indentLevel);
+        }
     }
 }
