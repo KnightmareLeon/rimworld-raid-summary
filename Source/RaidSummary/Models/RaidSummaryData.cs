@@ -9,6 +9,7 @@ namespace RaidSummary.Models
     {
         public int HumanPawnCount {get; private set;}
         public int AnimalPawnCount {get; private set;} = 0;
+        public int MechanoidCount {get; private set;} = 0;
 
         private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
@@ -17,6 +18,8 @@ namespace RaidSummary.Models
         private readonly Dictionary<XenotypeDef, int> xenotypeCounts
             = new Dictionary<XenotypeDef, int>();
         private readonly Dictionary<PawnKindDef, int> animalCounts
+            = new Dictionary<PawnKindDef, int>();
+        private readonly Dictionary<PawnKindDef, int> mechanoidCounts
             = new Dictionary<PawnKindDef, int>();
 
         public RaidSummaryData(List<Pawn> pawns)
@@ -27,6 +30,10 @@ namespace RaidSummary.Models
                 if (pawn.IsAnimal)
                 {
                     UpdateAnimalCount(pawn.kindDef);
+                } 
+                else if (pawn.RaceProps.IsMechanoid)
+                {
+                    UpdateMechanoidCount(pawn.kindDef);
                 }
                 else
                 {
@@ -40,7 +47,7 @@ namespace RaidSummary.Models
                 }
             }
 
-            HumanPawnCount = pawns.Count - AnimalPawnCount;
+            HumanPawnCount = pawns.Count - AnimalPawnCount - MechanoidCount;
         }
 
         private void UpdateEquipmentSummaries(Thing equipment)
@@ -154,25 +161,21 @@ namespace RaidSummary.Models
             AnimalPawnCount++;
         }
 
-        public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator()
+        private void UpdateMechanoidCount(PawnKindDef mechaDef)
         {
-            return equipmentSummaries.GetEnumerator();
+            if(!mechanoidCounts.ContainsKey(mechaDef))
+                mechanoidCounts[mechaDef] = 0;
+
+            mechanoidCounts[mechaDef]++;
+
+            MechanoidCount++;
         }
 
-        public Dictionary<ThingDef, ApparelSummary>.Enumerator ApparelSummariesEnumerator()
-        {
-            return apparelSummaries.GetEnumerator();
-        }
-
-        public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator()
-        {
-            return xenotypeCounts.GetEnumerator();
-        }
-
-        public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator()
-        {
-            return animalCounts.GetEnumerator();
-        }
+        public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator() => equipmentSummaries.GetEnumerator();
+        public Dictionary<ThingDef, ApparelSummary>.Enumerator ApparelSummariesEnumerator() => apparelSummaries.GetEnumerator();
+        public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator() => xenotypeCounts.GetEnumerator();
+        public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator() => animalCounts.GetEnumerator();
+        public Dictionary<PawnKindDef, int>.Enumerator MechanoidCountsEnumerator() => mechanoidCounts.GetEnumerator();
 
         public int EquipmentSummariesCount() => equipmentSummaries.Count;
         public int ApparelSummariesCount() => apparelSummaries.Count;
