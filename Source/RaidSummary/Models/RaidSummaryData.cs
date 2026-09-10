@@ -176,10 +176,5 @@ namespace RaidSummary.Models
         public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator() => xenotypeCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator() => animalCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator MechanoidCountsEnumerator() => mechanoidCounts.GetEnumerator();
-
-        public int EquipmentSummariesCount() => equipmentSummaries.Count;
-        public int ApparelSummariesCount() => apparelSummaries.Count;
-        public int XenotypeTotal() => xenotypeCounts.Count;
-
     }
 }

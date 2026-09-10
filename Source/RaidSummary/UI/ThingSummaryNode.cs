@@ -14,7 +14,5 @@ namespace RaidSummary.UI
             QualitiesNode.SetOpen(openMask, true);
             MaterialsNode.SetOpen(openMask, true);
         }
-
-
     }
 }
