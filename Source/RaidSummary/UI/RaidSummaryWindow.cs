@@ -199,11 +199,11 @@ namespace RaidSummary.UI
                         }
                     }
                 }
+                listing.GapLine();
             }
 
             if (summary.AnimalPawnCount > 0)
             {
-                listing.GapLine();
 
                 listing.DrawSection(animalNode, "Animals", indentLevel, OpenMask);
 
@@ -220,12 +220,11 @@ namespace RaidSummary.UI
                         }
                     }
                 }
+                listing.GapLine();
             }
 
             if(summary.MechanoidCount > 0)
             {
-                listing.GapLine();
-
                 listing.DrawSection(mechanoidNode, "Mechanoids", indentLevel, OpenMask);
 
                 if (mechanoidNode.IsOpen(OpenMask))
@@ -241,6 +240,7 @@ namespace RaidSummary.UI
                         }
                     }
                 }
+                listing.GapLine();
             }
         }
 
@@ -265,7 +265,7 @@ namespace RaidSummary.UI
                 0f,
                 0f,
                 viewRect.width,
-                3000f
+                6900f
             );
 
             RaidSummaryListing listing = new RaidSummaryListing();
