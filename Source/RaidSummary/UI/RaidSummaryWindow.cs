@@ -53,10 +53,7 @@ namespace RaidSummary.UI
 
         public override Vector2 InitialSize
         {
-            get
-            {
-                return new Vector2(800f, 600f);
-            }
+            get{return new Vector2(800f, 600f);}
         }
 
         private void DrawEquipment(RaidSummaryListing listing, ThingDef eqpDef, EquipmentSummary eqpSummary, int indentLevel)
@@ -72,19 +69,27 @@ namespace RaidSummary.UI
                 if (eqpSummary.BiocodedCount > 0)
                     listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
 
-                listing.DrawLabel("By Quality:", eqpIndentLevel + 1);
+                listing.DrawSection(eqpNode.QualitiesNode, "By Quality:", eqpIndentLevel + 1, OpenMask);
 
-                foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
-                    listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
+                if(eqpNode.QualitiesNode.IsOpen(OpenMask))
+                {
+                    foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
+                        listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
+                }
 
                 if (!eqpSummary.MaterialCounts.NullOrEmpty())
                 {
-                    listing.DrawLabel("By Material:", eqpIndentLevel + 1);
-                    foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                    listing.DrawSection(eqpNode.MaterialsNode, "By Material:", eqpIndentLevel + 1, OpenMask);
+
+                    if(eqpNode.MaterialsNode.IsOpen(OpenMask))
                     {
-                        int matIndentLevel = eqpIndentLevel + 3;
-                        listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                        foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                        {
+                            int matIndentLevel = eqpIndentLevel + 3;
+                            listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                        }
                     }
+
                 }
             }
         }
@@ -97,19 +102,25 @@ namespace RaidSummary.UI
 
             if(appNode.IsOpen(OpenMask))
             {
-                listing.DrawLabel("By Quality:", appIndentLevel + 1);
+                listing.DrawSection(appNode.QualitiesNode, "By Quality:", appIndentLevel + 1, OpenMask);
 
-                foreach (var (quality, qualityCount) in appSummary.QualityCounts)
-                    listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
+                if(appNode.QualitiesNode.IsOpen(OpenMask))
+                {
+                    foreach (var (quality, qualityCount) in appSummary.QualityCounts)
+                        listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
+                }
 
                 if (!appSummary.MaterialCounts.NullOrEmpty())
                 {
-                    listing.DrawLabel("By Material:", appIndentLevel + 1);
+                    listing.DrawSection(appNode.MaterialsNode, "By Material:", appIndentLevel + 1, OpenMask);
 
-                    foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                    if(appNode.MaterialsNode.IsOpen(OpenMask))
                     {
-                        int matIndentLevel = appIndentLevel + 3;
-                        listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                        foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                        {
+                            int matIndentLevel = appIndentLevel + 3;
+                            listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                        }
                     }
                 }
             }
@@ -157,7 +168,7 @@ namespace RaidSummary.UI
                 {
                     while (enumerator.MoveNext())
                     {
-                        ThingDef eqpDef =enumerator.Current.Key;
+                        ThingDef eqpDef = enumerator.Current.Key;
 
                         EquipmentSummary eqpSummary = enumerator.Current.Value;
 
