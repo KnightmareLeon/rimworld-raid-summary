@@ -37,6 +37,15 @@ namespace RaidSummary.UI
                 }
             }
 
+            using (var enumerator = summary.ApparelSummariesEnumerator())
+            {
+                while (enumerator.MoveNext())
+                {
+                    ThingDef appDef = enumerator.Current.Key;
+                    rootApparelNode.AddThingSummaryNode(appDef, OpenMask);
+                }
+            }
+
             doCloseX = true;
             draggable = true;
             absorbInputAroundWindow = false;
@@ -85,25 +94,30 @@ namespace RaidSummary.UI
         private void DrawApparel(RaidSummaryListing listing, ThingDef appDef, ApparelSummary appSummary, int indentLevel)
         {
             int appIndentLevel = indentLevel;
-            listing.DrawLabelForThing(appDef, ref appIndentLevel);
+            ThingSummaryNode appNode = rootApparelNode.GetThingSummaryNode(appDef); 
+            listing.DrawSectionForThing(appNode, appDef, ref appIndentLevel, OpenMask);
 
-            listing.DrawLabel($"Total: {appSummary.Total}", appIndentLevel + 1);
-
-            listing.DrawLabel("By Quality:", appIndentLevel + 1);
-
-            foreach (var (quality, qualityCount) in appSummary.QualityCounts)
-                listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
-
-            if (!appSummary.MaterialCounts.NullOrEmpty())
+            if(appNode.IsOpen(OpenMask))
             {
-                listing.DrawLabel("By Material:", appIndentLevel + 1);
+                listing.DrawLabel($"Total: {appSummary.Total}", appIndentLevel + 1);
 
-                foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                listing.DrawLabel("By Quality:", appIndentLevel + 1);
+
+                foreach (var (quality, qualityCount) in appSummary.QualityCounts)
+                    listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
+
+                if (!appSummary.MaterialCounts.NullOrEmpty())
                 {
-                    int matIndentLevel = appIndentLevel + 3;
-                    listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                    listing.DrawLabel("By Material:", appIndentLevel + 1);
+
+                    foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                    {
+                        int matIndentLevel = appIndentLevel + 3;
+                        listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                    }
                 }
             }
+
         }
 
         private void DrawContents(RaidSummaryListing listing)
