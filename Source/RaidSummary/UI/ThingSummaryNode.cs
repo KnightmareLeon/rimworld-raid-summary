@@ -11,8 +11,8 @@ namespace RaidSummary.UI
         public TreeNode MaterialsNode {get; private set;} = new TreeNode();
         public ThingSummaryNode(int openMask)
         {
-            QualitiesNode.SetOpen(openMask, false);
-            MaterialsNode.SetOpen(openMask, false);
+            QualitiesNode.SetOpen(openMask, true);
+            MaterialsNode.SetOpen(openMask, true);
         }
 
 
