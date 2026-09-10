@@ -53,11 +53,11 @@ namespace RaidSummary.UI
             EndLine();
         }
 
-        public void DrawSectionForThing(TreeNode node, ThingDef tDef, ref int indentLevel, int openMask)
+        public void DrawSectionForThing(TreeNode node, ThingDef tDef, ref int indentLevel, int openMask, string extraInfo="")
         {
             OpenCloseWidget(node, indentLevel, openMask);
             indentLevel++;
-            DrawLabelForThing(tDef, ref indentLevel);
+            DrawLabelForThing(tDef, ref indentLevel, extraInfo: extraInfo);
         }
     }
 }
