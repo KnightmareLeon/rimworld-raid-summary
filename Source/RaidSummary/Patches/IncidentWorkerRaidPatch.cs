@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
 using RaidSummary.UI;
+using RaidSummary.Utilities;
 using RimWorld;
 using Verse;
 
@@ -21,9 +22,15 @@ namespace RaidSummary.Patches
 
             RaidSummaryData summary = new RaidSummaryData(pawns);
 
-            Find.WindowStack.Add(
-                new RaidSummaryWindow(summary)
-            );
+            RaidSummaryLetter letter =
+                (RaidSummaryLetter)LetterMaker.MakeLetter(
+                    RaidSummaryLetterDefOf.RaidSummaryLetter
+                );
+
+            letter.Initialize(summary);
+            letter.Label = "Raid Summary";
+
+            Find.LetterStack.ReceiveLetter(letter);
         }
     }
 }

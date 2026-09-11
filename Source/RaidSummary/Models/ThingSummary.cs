@@ -14,7 +14,11 @@ namespace RaidSummary.Models
 
         private int total = 0;
         public int Total => total;
-        
+
+        public ThingSummary()
+        {
+        }
+
         public ThingSummary(ThingDef tDef)
         {
             this.tDef = tDef;
@@ -53,7 +57,7 @@ namespace RaidSummary.Models
             Scribe_Collections.Look(
                 ref QualityCounts,
                 "qualityCounts",
-                LookMode.Def,
+                LookMode.Value,
                 LookMode.Value
             );
 

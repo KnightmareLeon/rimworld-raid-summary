@@ -25,6 +25,10 @@ namespace RaidSummary.Models
         private Dictionary<PawnKindDef, int> mechanoidCounts
             = new Dictionary<PawnKindDef, int>();
 
+        public RaidSummaryData()
+        {
+        }
+
         public RaidSummaryData(List<Pawn> pawns)
         {
 

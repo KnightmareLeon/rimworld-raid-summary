@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+    <LetterDef>
+        <defName>RaidSummaryLetter</defName>
+        <label>raid summary</label>
+        <description>A summary of the recent raid.</description>
+
+        <letterClass>RaidSummary.UI.RaidSummaryLetter</letterClass>
+
+        <icon>UI/Letters/LetterUnopened</icon>
+
+        <color>(0.8,0.8,1.0)</color>
+        <flashColor>(1.0,1.0,1.0)</flashColor>
+        <flashInterval>90</flashInterval>
+        <bounce>true</bounce>
+    </LetterDef>
+</Defs>

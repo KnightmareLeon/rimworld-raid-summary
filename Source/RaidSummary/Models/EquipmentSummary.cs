@@ -8,6 +8,10 @@ namespace RaidSummary.Models
     {
         private int biocodedCount = 0;
 
+        public EquipmentSummary()
+        {
+        }
+
         public EquipmentSummary(ThingDef tDef) : base(tDef)
         {
         }
