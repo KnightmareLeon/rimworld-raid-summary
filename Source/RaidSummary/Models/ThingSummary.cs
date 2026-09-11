@@ -4,7 +4,7 @@ using Verse;
 
 namespace RaidSummary.Models
 {
-    public abstract class ThingSummary
+    public abstract class ThingSummary : IExposable
     {
         private ThingDef tDef;
         private Dictionary<QualityCategory, int> QualityCounts
@@ -45,5 +45,26 @@ namespace RaidSummary.Models
         public void IncrementMaterialCount(ThingDef tDef) => MaterialCounts[tDef]++;
 
         public bool MaterialNullOrEmpty() => MaterialCounts.NullOrEmpty();
+
+        public virtual void ExposeData()
+        {
+            Scribe_Defs.Look(ref tDef, "tDef");
+
+            Scribe_Collections.Look(
+                ref QualityCounts,
+                "qualityCounts",
+                LookMode.Def,
+                LookMode.Value
+            );
+
+            Scribe_Collections.Look(
+                ref MaterialCounts,
+                "materialCounts",
+                LookMode.Def,
+                LookMode.Value
+            );
+
+            Scribe_Values.Look(ref total, "total");
+        }
     }
 }

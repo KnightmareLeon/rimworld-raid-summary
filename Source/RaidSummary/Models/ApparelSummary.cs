@@ -7,7 +7,6 @@ namespace RaidSummary.Models
 {
     public class ApparelSummary : ThingSummary
     {
-
         public ApparelSummary(ThingDef tDef) : base(tDef)
         {
         }
