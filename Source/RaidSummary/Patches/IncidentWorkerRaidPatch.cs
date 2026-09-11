@@ -21,94 +21,9 @@ namespace RaidSummary.Patches
 
             RaidSummaryData summary = new RaidSummaryData(pawns);
 
-            Log.Message(
-                $"[Raid Summary] Raid generated with {summary.HumanPawnCount} pawns."
-            );
-
-            if(ModsConfig.BiotechActive)
-            {
-                using (var xenSummaryEnumerator = summary.XenotypeCountsEnumerator())
-                {
-                    while (xenSummaryEnumerator.MoveNext())
-                    {
-                        Log.Message(
-                            $"[Raid Summary] Total {xenSummaryEnumerator.Current.Key.LabelCap} pawns: {xenSummaryEnumerator.Current.Value}"
-                        );
-                    }
-                }
-            }
-
             Find.WindowStack.Add(
                 new RaidSummaryWindow(summary)
             );
-
-            using (var eqpSummaryEnumerator = summary.EquipmentSummariesEnumerator())
-            {
-                while (eqpSummaryEnumerator.MoveNext())
-                {
-                    ThingDef equipmentDef = eqpSummaryEnumerator.Current.Key;
-                    EquipmentSummary equipmentSummary = eqpSummaryEnumerator.Current.Value;
-
-                    Log.Message(
-                        $"[Raid Summary] Total {equipmentDef.LabelCap}: {equipmentSummary.Total}"
-                    );
-
-                    foreach (var (quality, qualityCount) in equipmentSummary.QualityCounts)
-                    {
-                        Log.Message(
-                            $"[Raid Summary] Total {quality} {equipmentDef.LabelCap}: {qualityCount}"
-                        );
-                    }
-
-                    if(equipmentSummary.BiocodedCount > 0)
-                    {
-                        Log.Message(
-                            $"[Raid Summary] Total Biocoded {equipmentDef.LabelCap}: {equipmentSummary.BiocodedCount}"
-                        );
-                    }
-
-                    if(!equipmentSummary.MaterialCounts.NullOrEmpty())
-                    {
-                        foreach (var (materialDef, materialCount) in equipmentSummary.MaterialCounts)
-                        {
-                            Log.Message(
-                                $"[Raid Summary] Total {materialDef.LabelCap} {equipmentDef.LabelCap}: {materialCount}"
-                            );
-                        }
-                    }
-                }
-            }
-
-            using (var appSummayEnumerator = summary.ApparelSummariesEnumerator())
-            {
-                while (appSummayEnumerator.MoveNext())
-                {
-                    ThingDef apparelDef = appSummayEnumerator.Current.Key;
-                    ApparelSummary apparelSummary = appSummayEnumerator.Current.Value;
-
-                    Log.Message(
-                        $"[Raid Summary] Total {apparelDef.LabelCap}: {apparelSummary.Total}"
-                    );
-
-                    foreach (var (quality, qualityCount) in apparelSummary.QualityCounts)
-                    {
-                        Log.Message(
-                            $"[Raid Summary] Total {quality} {apparelDef.LabelCap}: {qualityCount}"
-                        );
-                    }
-
-                    if(!apparelSummary.MaterialCounts.NullOrEmpty())
-                    {
-                        foreach (var (materialDef, materialCount) in apparelSummary.MaterialCounts)
-                        {
-                            Log.Message(
-                                $"[Raid Summary] Total {materialDef.LabelCap} {apparelDef.LabelCap}: {materialCount}"
-                            );
-                        }
-                    }
-                }
-            }
-
         }
     }
 }
