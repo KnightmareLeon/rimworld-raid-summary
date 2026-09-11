@@ -7,19 +7,22 @@ namespace RaidSummary.Models
 {
     public class RaidSummaryData
     {
-        public int HumanPawnCount {get; private set;}
-        public int AnimalPawnCount {get; private set;} = 0;
-        public int MechanoidCount {get; private set;} = 0;
+        private int humanPawnCount;
+        private int animalPawnCount = 0;
+        private int mechanoidCount = 0;
+        public int HumanPawnCount => humanPawnCount;
+        public int AnimalPawnCount => animalPawnCount;
+        public int MechanoidCount => mechanoidCount;
 
-        private readonly Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
+        private Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
-        private readonly Dictionary<ThingDef, ApparelSummary> apparelSummaries
+        private Dictionary<ThingDef, ApparelSummary> apparelSummaries
             = new Dictionary<ThingDef, ApparelSummary>();
-        private readonly Dictionary<XenotypeDef, int> xenotypeCounts
+        private Dictionary<XenotypeDef, int> xenotypeCounts
             = new Dictionary<XenotypeDef, int>();
-        private readonly Dictionary<PawnKindDef, int> animalCounts
+        private Dictionary<PawnKindDef, int> animalCounts
             = new Dictionary<PawnKindDef, int>();
-        private readonly Dictionary<PawnKindDef, int> mechanoidCounts
+        private Dictionary<PawnKindDef, int> mechanoidCounts
             = new Dictionary<PawnKindDef, int>();
 
         public RaidSummaryData(List<Pawn> pawns)
@@ -47,7 +50,7 @@ namespace RaidSummary.Models
                 }
             }
 
-            HumanPawnCount = pawns.Count - AnimalPawnCount - MechanoidCount;
+            humanPawnCount = pawns.Count - AnimalPawnCount - MechanoidCount;
         }
 
         private void UpdateEquipmentSummaries(Thing equipment)
@@ -59,15 +62,12 @@ namespace RaidSummary.Models
 
             if (!equipmentSummaries.TryGetValue(equipmentDef, out EquipmentSummary equipmentSummary))
             {
-                equipmentSummary = new EquipmentSummary
-                {
-                    EquipmentDef = equipmentDef
-                };
+                equipmentSummary = new EquipmentSummary(equipmentDef);
 
                 equipmentSummaries.Add(equipmentDef, equipmentSummary);
             }
 
-            equipmentSummary.Total++;
+            equipmentSummary.IncrementTotal();
 
             QualityCategory quality = QualityCategory.Normal;
 
@@ -76,25 +76,28 @@ namespace RaidSummary.Models
             if (compQuality != null)
                 quality = compQuality.Quality;
 
-            if (!equipmentSummary.QualityCounts.ContainsKey(quality))
-                equipmentSummary.QualityCounts[quality] = 0;
+            if (!equipmentSummary.QualityExists(quality))
+                equipmentSummary.InitializeQualityCount(quality);
 
-            equipmentSummary.QualityCounts[quality]++;
+            equipmentSummary.IncrementQualityCount(quality);
 
             ThingDef stuffDef = equipment?.Stuff;
 
             if(stuffDef != null)
             {
-                if (!equipmentSummary.MaterialCounts.ContainsKey(stuffDef))
-                    equipmentSummary.MaterialCounts[stuffDef] = 0;
+                if (!equipmentSummary.MaterialExists(stuffDef))
+                    equipmentSummary.InitializeMaterialCount(stuffDef);
 
-                equipmentSummary.MaterialCounts[stuffDef]++;
+                equipmentSummary.IncrementMaterialCount(stuffDef);
             }
 
             CompBiocodable compBiocodable = equipment.TryGetComp<CompBiocodable>();
 
             if(compBiocodable != null)
-                equipmentSummary.BiocodedCount += compBiocodable.Biocoded ? 1 : 0;
+            {
+                if(compBiocodable.Biocoded)
+                    equipmentSummary.IncrementBiocode();
+            }
         }
 
         private void UpdateApparelSummaries(List<Apparel> wornApparel)
@@ -108,15 +111,12 @@ namespace RaidSummary.Models
 
                 if (!apparelSummaries.TryGetValue(apparelDef, out ApparelSummary apparelSummary))
                 {
-                    apparelSummary = new ApparelSummary
-                    {
-                        ApparelDef = apparelDef
-                    };
+                    apparelSummary = new ApparelSummary(apparelDef);
 
                     apparelSummaries.Add(apparelDef, apparelSummary);
                 }
 
-                apparelSummary.Total++;
+                apparelSummary.IncrementTotal();
 
                 QualityCategory quality = QualityCategory.Normal;
 
@@ -125,19 +125,19 @@ namespace RaidSummary.Models
                 if (compQuality != null)
                     quality = compQuality.Quality;
 
-                if (!apparelSummary.QualityCounts.ContainsKey(quality))
-                    apparelSummary.QualityCounts[quality] = 0;
+                if (!apparelSummary.QualityExists(quality))
+                    apparelSummary.InitializeQualityCount(quality);
 
-                apparelSummary.QualityCounts[quality]++;
+                apparelSummary.IncrementQualityCount(quality);
 
                 ThingDef stuffDef = apparel?.Stuff;
 
                 if(stuffDef != null)
                 {
-                    if (!apparelSummary.MaterialCounts.ContainsKey(stuffDef))
-                        apparelSummary.MaterialCounts[stuffDef] = 0;
+                    if (!apparelSummary.MaterialExists(stuffDef))
+                        apparelSummary.InitializeMaterialCount(stuffDef);
 
-                    apparelSummary.MaterialCounts[stuffDef]++;
+                    apparelSummary.IncrementMaterialCount(stuffDef);
                 }
             }
 
@@ -158,7 +158,7 @@ namespace RaidSummary.Models
 
             animalCounts[animalDef]++;
 
-            AnimalPawnCount++;
+            animalPawnCount++;
         }
 
         private void UpdateMechanoidCount(PawnKindDef mechaDef)
@@ -168,7 +168,7 @@ namespace RaidSummary.Models
 
             mechanoidCounts[mechaDef]++;
 
-            MechanoidCount++;
+            mechanoidCount++;
         }
 
         public Dictionary<ThingDef, EquipmentSummary>.Enumerator EquipmentSummariesEnumerator() => equipmentSummaries.GetEnumerator();

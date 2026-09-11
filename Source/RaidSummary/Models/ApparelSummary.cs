@@ -5,14 +5,11 @@ using Verse;
 
 namespace RaidSummary.Models
 {
-    public class ApparelSummary
+    public class ApparelSummary : ThingSummary
     {
-        public ThingDef ApparelDef { get; set; }
-        public Dictionary<QualityCategory, int> QualityCounts { get; set; }
-            = new Dictionary<QualityCategory, int>();
-        public Dictionary<ThingDef, int> MaterialCounts {get; set;}
-            = new Dictionary<ThingDef, int>();
-        public int Total = 0;
 
+        public ApparelSummary(ThingDef tDef) : base(tDef)
+        {
+        }
     }
 }

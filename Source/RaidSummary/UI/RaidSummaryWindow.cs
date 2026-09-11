@@ -74,20 +74,31 @@ namespace RaidSummary.UI
 
                 if(eqpNode.QualitiesNode.IsOpen(OpenMask))
                 {
-                    foreach (var (quality, qualityCount) in eqpSummary.QualityCounts)
-                        listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
+                    using(var enumerator = eqpSummary.QualityEnumerator())
+                    {
+                        while(enumerator.MoveNext())
+                        {
+                            QualityCategory quality = enumerator.Current.Key;
+                            int qualityCount = enumerator.Current.Value;
+                            listing.DrawLabel($"{quality}: {qualityCount}", eqpIndentLevel + 2);
+                        }
+                    }
                 }
 
-                if (!eqpSummary.MaterialCounts.NullOrEmpty())
+                if (!eqpSummary.MaterialNullOrEmpty())
                 {
                     listing.DrawSection(eqpNode.MaterialsNode, "By Material:", eqpIndentLevel + 1, OpenMask);
 
                     if(eqpNode.MaterialsNode.IsOpen(OpenMask))
                     {
-                        foreach (var (materialDef, materialCount) in eqpSummary.MaterialCounts)
+                        using(var enumerator = eqpSummary.MaterialsEnumerator())
                         {
-                            int matIndentLevel = eqpIndentLevel + 3;
-                            listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                            while(enumerator.MoveNext())
+                            {
+                                ThingDef material = enumerator.Current.Key;
+                                int materialCount = enumerator.Current.Value;
+                                listing.DrawLabel($"{material.LabelCap}: {materialCount}", eqpIndentLevel + 2);
+                            }
                         }
                     }
 
@@ -107,20 +118,31 @@ namespace RaidSummary.UI
 
                 if(appNode.QualitiesNode.IsOpen(OpenMask))
                 {
-                    foreach (var (quality, qualityCount) in appSummary.QualityCounts)
-                        listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
+                    using(var enumerator = appSummary.QualityEnumerator())
+                    {
+                        while(enumerator.MoveNext())
+                        {
+                            QualityCategory quality = enumerator.Current.Key;
+                            int qualityCount = enumerator.Current.Value;
+                            listing.DrawLabel($"{quality}: {qualityCount}", appIndentLevel + 2);
+                        }
+                    }
                 }
 
-                if (!appSummary.MaterialCounts.NullOrEmpty())
+                if (!appSummary.MaterialNullOrEmpty())
                 {
                     listing.DrawSection(appNode.MaterialsNode, "By Material:", appIndentLevel + 1, OpenMask);
 
                     if(appNode.MaterialsNode.IsOpen(OpenMask))
                     {
-                        foreach (var (materialDef, materialCount) in appSummary.MaterialCounts)
+                        using(var enumerator = appSummary.MaterialsEnumerator())
                         {
-                            int matIndentLevel = appIndentLevel + 3;
-                            listing.DrawLabelForThing(materialDef, ref matIndentLevel, extraInfo:$": {materialCount}");
+                            while(enumerator.MoveNext())
+                            {
+                                ThingDef material = enumerator.Current.Key;
+                                int materialCount = enumerator.Current.Value;
+                                listing.DrawLabel($"{material.LabelCap}: {materialCount}", appIndentLevel + 2);
+                            }
                         }
                     }
                 }
