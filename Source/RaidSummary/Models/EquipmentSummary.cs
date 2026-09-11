@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using RimWorld;
-using UnityEngine.PlayerLoop;
 using Verse;
 
 namespace RaidSummary.Models
 {
-    public class EquipmentSummary
+    public class EquipmentSummary : ThingSummary
     {
-        public ThingDef EquipmentDef { get; set; }
-        public Dictionary<QualityCategory, int> QualityCounts { get; set; }
-            = new Dictionary<QualityCategory, int>();
-        public Dictionary<ThingDef, int> MaterialCounts {get; set;}
-            = new Dictionary<ThingDef, int>();
-        public int BiocodedCount = 0;
-        public int Total = 0;
+        private int bioCodedCount = 0;
 
+        public EquipmentSummary(ThingDef tDef) : base(tDef)
+        {
+        }
+
+        public int BiocodedCount => bioCodedCount;
+
+        public void IncrementBiocode() {bioCodedCount++;}
     }
 }
