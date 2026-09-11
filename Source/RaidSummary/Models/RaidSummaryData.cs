@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using Verse;
 using RimWorld;
-using System.Linq.Expressions;
+using UnityEngine;
 
 namespace RaidSummary.Models
 {
     public class RaidSummaryData : IExposable
     {
+        private Faction faction ;
+        private int tick;
+        private Vector2 location;
         private int humanPawnCount;
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
+        public Faction Faction => faction;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
         public int MechanoidCount => mechanoidCount;
-
         private Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
         private Dictionary<ThingDef, ApparelSummary> apparelSummaries
@@ -29,8 +32,12 @@ namespace RaidSummary.Models
         {
         }
 
-        public RaidSummaryData(List<Pawn> pawns)
+        public RaidSummaryData(Faction faction, Map map, List<Pawn> pawns)
         {
+            this.faction = faction;
+
+            tick = Find.TickManager.TicksAbs;
+            location = Find.WorldGrid.LongLatOf(map.Tile);
 
             foreach (Pawn pawn in pawns)
             {
@@ -180,46 +187,23 @@ namespace RaidSummary.Models
         public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator() => xenotypeCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator() => animalCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator MechanoidCountsEnumerator() => mechanoidCounts.GetEnumerator();
+
+        public string GetRaidDate() => GenDate.DateFullStringWithHourAt(tick, location);
+
         public void ExposeData()
         {
+            Scribe_References.Look(ref faction, "faction");
+            Scribe_Values.Look(ref tick, "tick");
+            Scribe_Values.Look(ref location, "location");
             Scribe_Values.Look(ref humanPawnCount, "humanPawnCount");
             Scribe_Values.Look(ref animalPawnCount, "animalPawnCount");
             Scribe_Values.Look(ref mechanoidCount, "mechanoidCount");
 
-            Scribe_Collections.Look(
-                ref equipmentSummaries,
-                "equipmentSummaries",
-                LookMode.Def,
-                LookMode.Deep
-            );
-
-            Scribe_Collections.Look(
-                ref apparelSummaries,
-                "apparelSummaries",
-                LookMode.Def,
-                LookMode.Deep
-            );
-
-            Scribe_Collections.Look(
-                ref xenotypeCounts,
-                "xenotypeCounts",
-                LookMode.Def,
-                LookMode.Value
-            );
-
-            Scribe_Collections.Look(
-                ref animalCounts,
-                "animalCounts",
-                LookMode.Def,
-                LookMode.Value
-            );
-
-            Scribe_Collections.Look(
-                ref mechanoidCounts,
-                "mechanoidCounts",
-                LookMode.Def,
-                LookMode.Value
-            );
+            Scribe_Collections.Look(ref equipmentSummaries, "equipmentSummaries", LookMode.Def, LookMode.Deep);
+            Scribe_Collections.Look(ref apparelSummaries, "apparelSummaries", LookMode.Def, LookMode.Deep);
+            Scribe_Collections.Look(ref xenotypeCounts, "xenotypeCounts", LookMode.Def, LookMode.Value);
+            Scribe_Collections.Look(ref animalCounts, "animalCounts", LookMode.Def, LookMode.Value);
+            Scribe_Collections.Look(ref mechanoidCounts, "mechanoidCounts", LookMode.Def,LookMode.Value);
         }
     }
 }

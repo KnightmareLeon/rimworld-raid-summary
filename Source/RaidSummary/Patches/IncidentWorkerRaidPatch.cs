@@ -20,7 +20,7 @@ namespace RaidSummary.Patches
             if (!__result || debugTest || pawns == null)
                 return;
 
-            RaidSummaryData summary = new RaidSummaryData(pawns);
+            RaidSummaryData summary = new RaidSummaryData(parms.faction, (Map)parms.target, pawns);
 
             RaidSummaryLetter letter =
                 (RaidSummaryLetter)LetterMaker.MakeLetter(

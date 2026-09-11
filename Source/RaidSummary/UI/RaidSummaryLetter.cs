@@ -20,7 +20,7 @@ namespace RaidSummary.UI
 
         protected override string GetMouseoverText()
         {
-            return "Raid Summary Available";
+            return $"Generated summary report for {summary.Faction.Name.ApplyTag(summary.Faction).CapitalizeFirst()}'s raid on {summary.GetRaidDate()}";
         }
 
         public override void ExposeData()

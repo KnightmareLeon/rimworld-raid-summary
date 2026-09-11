@@ -154,7 +154,11 @@ namespace RaidSummary.UI
         {
             int indentLevel = 0;
 
-            listing.DrawLabel("Raid Summary", indentLevel);
+            listing.DrawLabel($"{summary.Faction.Name}'s Raid Summary", indentLevel);
+
+            listing.Gap();
+
+            listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
 
             listing.Gap();
 
@@ -270,32 +274,15 @@ namespace RaidSummary.UI
         {
             float width = inRect.width - 16f;
 
-            Rect viewRect = new Rect(
-                0f,
-                0f,
-                width,
-                viewHeight
-            );
+            Rect viewRect = new Rect(0f, 0f, width, viewHeight);
 
-            Widgets.BeginScrollView(
-                inRect,
-                ref scrollPosition,
-                viewRect
-            );
+            Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
 
-            Rect listingRect = new Rect(
-                0f,
-                0f,
-                viewRect.width,
-                6900f
-            );
-
+            Rect listingRect = new Rect(0f, 0f, viewRect.width, 6900f);
             RaidSummaryListing listing = new RaidSummaryListing();
 
             listing.Begin(listingRect);
-
             DrawContents(listing);
-
             listing.End();
 
             if (Event.current.type == EventType.Layout)
