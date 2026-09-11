@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
+using RaidSummary.Settings;
 using RaidSummary.UI;
 using RaidSummary.Utilities;
 using RimWorld;
@@ -18,6 +19,9 @@ namespace RaidSummary.Patches
             bool __result)
         {
             if (!__result || debugTest || pawns == null)
+                return;
+
+            if(!parms.faction.HostileTo(Faction.OfPlayer) && !RaidSummaryMod.Settings.createFriendliesReport)
                 return;
 
             RaidSummaryData summary = new RaidSummaryData(parms.faction, (Map)parms.target, pawns);

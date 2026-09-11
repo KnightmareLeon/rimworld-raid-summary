@@ -2,6 +2,7 @@ using UnityEngine;
 using Verse;
 using RaidSummary.Models;
 using RimWorld;
+using RaidSummary.Settings;
 
 namespace RaidSummary.UI
 {
@@ -24,10 +25,11 @@ namespace RaidSummary.UI
         {
             this.summary = summary;
 
-            xenotypeNode.SetOpen(OpenMask, true);
-            rootEquipmentNode.SetOpen(OpenMask, false);
-            rootEquipmentNode.SetOpen(OpenMask, false);
-            animalNode.SetOpen(OpenMask, false);
+            xenotypeNode.SetOpen(OpenMask, RaidSummaryMod.Settings.autoShowXenotypes);
+            rootEquipmentNode.SetOpen(OpenMask, RaidSummaryMod.Settings.autoShowEquipment);
+            rootApparelNode.SetOpen(OpenMask, RaidSummaryMod.Settings.autoShowApparel);
+            animalNode.SetOpen(OpenMask, RaidSummaryMod.Settings.autoShowAnimals);
+            mechanoidNode.SetOpen(OpenMask, RaidSummaryMod.Settings.autoShowMechanoids);
 
             using (var enumerator = summary.EquipmentSummariesEnumerator())
             {
