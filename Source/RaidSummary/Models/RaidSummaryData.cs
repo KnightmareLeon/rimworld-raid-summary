@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace RaidSummary.Models
 {
-    public class RaidSummaryData
+    public class RaidSummaryData : IExposable
     {
         private int humanPawnCount;
         private int animalPawnCount = 0;
@@ -176,5 +176,46 @@ namespace RaidSummary.Models
         public Dictionary<XenotypeDef, int>.Enumerator XenotypeCountsEnumerator() => xenotypeCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator AnimalCountsEnumerator() => animalCounts.GetEnumerator();
         public Dictionary<PawnKindDef, int>.Enumerator MechanoidCountsEnumerator() => mechanoidCounts.GetEnumerator();
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref humanPawnCount, "humanPawnCount");
+            Scribe_Values.Look(ref animalPawnCount, "animalPawnCount");
+            Scribe_Values.Look(ref mechanoidCount, "mechanoidCount");
+
+            Scribe_Collections.Look(
+                ref equipmentSummaries,
+                "equipmentSummaries",
+                LookMode.Def,
+                LookMode.Deep
+            );
+
+            Scribe_Collections.Look(
+                ref apparelSummaries,
+                "apparelSummaries",
+                LookMode.Def,
+                LookMode.Deep
+            );
+
+            Scribe_Collections.Look(
+                ref xenotypeCounts,
+                "xenotypeCounts",
+                LookMode.Def,
+                LookMode.Value
+            );
+
+            Scribe_Collections.Look(
+                ref animalCounts,
+                "animalCounts",
+                LookMode.Def,
+                LookMode.Value
+            );
+
+            Scribe_Collections.Look(
+                ref mechanoidCounts,
+                "mechanoidCounts",
+                LookMode.Def,
+                LookMode.Value
+            );
+        }
     }
 }

@@ -6,14 +6,21 @@ namespace RaidSummary.Models
 {
     public class EquipmentSummary : ThingSummary
     {
-        private int bioCodedCount = 0;
+        private int biocodedCount = 0;
 
         public EquipmentSummary(ThingDef tDef) : base(tDef)
         {
         }
 
-        public int BiocodedCount => bioCodedCount;
+        public int BiocodedCount => biocodedCount;
 
-        public void IncrementBiocode() {bioCodedCount++;}
+        public void IncrementBiocode() {biocodedCount++;}
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            Scribe_Values.Look(ref biocodedCount, "biocodedCount");
+        }
     }
 }
