@@ -95,9 +95,10 @@ namespace RaidSummary.UI
                         {
                             while(enumerator.MoveNext())
                             {
+                                int materialIndent = eqpIndentLevel + 2;
                                 ThingDef material = enumerator.Current.Key;
                                 int materialCount = enumerator.Current.Value;
-                                listing.DrawLabel($"{material.LabelCap}: {materialCount}", eqpIndentLevel + 2);
+                                listing.DrawLabelForThing(material, ref materialIndent, $": {materialCount}");
                             }
                         }
                     }
@@ -139,9 +140,10 @@ namespace RaidSummary.UI
                         {
                             while(enumerator.MoveNext())
                             {
+                                int materialIndent = appIndentLevel + 2;
                                 ThingDef material = enumerator.Current.Key;
                                 int materialCount = enumerator.Current.Value;
-                                listing.DrawLabel($"{material.LabelCap}: {materialCount}", appIndentLevel + 2);
+                                listing.DrawLabelForThing(material, ref materialIndent, $": {materialCount}");
                             }
                         }
                     }
@@ -154,9 +156,10 @@ namespace RaidSummary.UI
         {
             int indentLevel = 0;
 
-            listing.DrawLabel($"{summary.Faction.Name}'s Raid Summary", indentLevel);
+            string windowHeader = summary.IsFactionEnemy() ? "Raid" : "Friendlies";
+            listing.DrawLabel($"{summary.Faction.Name}'s {windowHeader} Summary", indentLevel);
 
-            listing.Gap();
+            listing.GapLine();
 
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
 

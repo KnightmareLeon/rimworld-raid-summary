@@ -190,6 +190,8 @@ namespace RaidSummary.Models
 
         public string GetRaidDate() => GenDate.DateFullStringWithHourAt(tick, location);
 
+        public bool IsFactionEnemy() => faction.HostileTo(Faction.OfPlayer);
+
         public void ExposeData()
         {
             Scribe_References.Look(ref faction, "faction");

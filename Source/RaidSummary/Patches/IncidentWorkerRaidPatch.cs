@@ -28,7 +28,8 @@ namespace RaidSummary.Patches
                 );
 
             letter.Initialize(summary);
-            letter.Label = "Raid Summary";
+            letter.Label = parms.faction.HostileTo(Faction.OfPlayer) ? "Raid Summary: " : "Friendlies Summary: ";
+            letter.Label += parms.faction.Name;
 
             Find.LetterStack.ReceiveLetter(letter);
         }
