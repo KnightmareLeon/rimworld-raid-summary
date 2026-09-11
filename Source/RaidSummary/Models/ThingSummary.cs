@@ -54,19 +54,8 @@ namespace RaidSummary.Models
         {
             Scribe_Defs.Look(ref tDef, "tDef");
 
-            Scribe_Collections.Look(
-                ref QualityCounts,
-                "qualityCounts",
-                LookMode.Value,
-                LookMode.Value
-            );
-
-            Scribe_Collections.Look(
-                ref MaterialCounts,
-                "materialCounts",
-                LookMode.Def,
-                LookMode.Value
-            );
+            Scribe_Collections.Look(ref QualityCounts, "qualityCounts", LookMode.Value, LookMode.Value);
+            Scribe_Collections.Look(ref MaterialCounts, "materialCounts", LookMode.Def, LookMode.Value);
 
             Scribe_Values.Look(ref total, "total");
         }
