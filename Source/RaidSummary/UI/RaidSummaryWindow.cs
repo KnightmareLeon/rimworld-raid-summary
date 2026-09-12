@@ -167,9 +167,11 @@ namespace RaidSummary.UI
 
             listing.Gap();
 
+            listing.DrawLabel($"Total Pawns: {summary.TotalPawnCount}", indentLevel);
             listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", indentLevel);
             listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", indentLevel);
             listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", indentLevel);
+            listing.DrawLabel($"Shambler Pawns: {summary.ShamblerCount}", indentLevel);
 
             listing.GapLine();
 
