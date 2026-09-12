@@ -158,9 +158,11 @@ namespace RaidSummary.UI
         {
             int indentLevel = 0;
 
+            Text.Font = GameFont.Medium;
             string windowHeader = summary.IsFactionEnemy() ? "Raid" : "Friendlies";
             listing.DrawLabel($"{summary.Faction.Name}'s {windowHeader} Summary", indentLevel);
 
+            Text.Font = GameFont.Small;
             listing.GapLine();
 
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
