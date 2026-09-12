@@ -10,13 +10,17 @@ namespace RaidSummary.Models
         private Faction faction ;
         private int tick;
         private Vector2 location;
-        private int humanPawnCount;
+        private int totalPawnCount = 0;
+        private int humanPawnCount = 0;
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
+        private int shamblerCount = 0;
         public Faction Faction => faction;
+        public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
         public int MechanoidCount => mechanoidCount;
+        public int ShamblerCount => shamblerCount;
         private Dictionary<ThingDef, EquipmentSummary> equipmentSummaries
             = new Dictionary<ThingDef, EquipmentSummary>();
         private Dictionary<ThingDef, ApparelSummary> apparelSummaries
@@ -34,6 +38,7 @@ namespace RaidSummary.Models
 
         public RaidSummaryData(Faction faction, Map map, List<Pawn> pawns)
         {
+            totalPawnCount = pawns.Count;
             this.faction = faction;
 
             tick = Find.TickManager.TicksAbs;
@@ -44,24 +49,40 @@ namespace RaidSummary.Models
                 if (pawn.IsAnimal)
                 {
                     UpdateAnimalCount(pawn.kindDef);
+                    if(pawn.IsShambler) shamblerCount++;
                 } 
                 else if (pawn.RaceProps.IsMechanoid)
                 {
                     UpdateMechanoidCount(pawn.kindDef);
                 }
-                else
+                else if (pawn.IsShambler)
+                {
+                    shamblerCount++;
+                    if(pawn.RaceProps.Humanlike)
+                    {
+                        UpdateEquipmentSummaries(pawn.equipment?.Primary);
+                        UpdateApparelSummaries(pawn.apparel?.WornApparel);
+                        if (ModsConfig.BiotechActive) UpdateXenotypeCount(pawn.genes.Xenotype);
+                        humanPawnCount++;
+                    }
+                }
+                else if (pawn.RaceProps.Humanlike)
                 {
                     UpdateEquipmentSummaries(pawn.equipment?.Primary);
                     UpdateApparelSummaries(pawn.apparel?.WornApparel);
 
                     if (ModsConfig.BiotechActive)
-                    {
                         UpdateXenotypeCount(pawn.genes.Xenotype);
-                    }
+                    
+                    humanPawnCount++;
+                }
+                else
+                {
+                    if(pawn.equipment != null) UpdateEquipmentSummaries(pawn.equipment?.Primary);
+                    if(pawn.apparel != null) UpdateApparelSummaries(pawn.apparel?.WornApparel);
                 }
             }
 
-            humanPawnCount = pawns.Count - AnimalPawnCount - MechanoidCount;
         }
 
         private void UpdateEquipmentSummaries(Thing equipment)
@@ -197,9 +218,11 @@ namespace RaidSummary.Models
             Scribe_References.Look(ref faction, "faction");
             Scribe_Values.Look(ref tick, "tick");
             Scribe_Values.Look(ref location, "location");
+            Scribe_Values.Look(ref totalPawnCount, "totalPawnCount");
             Scribe_Values.Look(ref humanPawnCount, "humanPawnCount");
             Scribe_Values.Look(ref animalPawnCount, "animalPawnCount");
             Scribe_Values.Look(ref mechanoidCount, "mechanoidCount");
+            Scribe_Values.Look(ref shamblerCount, "shamblerCount");
 
             Scribe_Collections.Look(ref equipmentSummaries, "equipmentSummaries", LookMode.Def, LookMode.Deep);
             Scribe_Collections.Look(ref apparelSummaries, "apparelSummaries", LookMode.Def, LookMode.Deep);
