@@ -213,6 +213,9 @@ namespace RaidSummary.Models
 
         public bool IsFactionEnemy() => faction.HostileTo(Faction.OfPlayer);
 
+        public bool EquipmentSummariesNullOrEmpty() => equipmentSummaries.NullOrEmpty();
+        public bool ApparelSummariesNullOrEmpty() => apparelSummaries.NullOrEmpty();
+
         public void ExposeData()
         {
             Scribe_References.Look(ref faction, "faction");

@@ -168,10 +168,10 @@ namespace RaidSummary.UI
             listing.Gap();
 
             listing.DrawLabel($"Total Pawns: {summary.TotalPawnCount}", indentLevel);
-            listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", indentLevel);
-            listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", indentLevel);
-            listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", indentLevel);
-            listing.DrawLabel($"Shambler Pawns: {summary.ShamblerCount}", indentLevel);
+            if (summary.HumanPawnCount > 0) listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", indentLevel);
+            if (summary.AnimalPawnCount > 0) listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", indentLevel);
+            if (summary.MechanoidCount > 0) listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", indentLevel);
+            if (summary.ShamblerCount > 0) listing.DrawLabel($"Shambler Pawns: {summary.ShamblerCount}", indentLevel);
 
             listing.GapLine();
 
@@ -196,7 +196,7 @@ namespace RaidSummary.UI
                 listing.GapLine();
             }
 
-            if (summary.HumanPawnCount > 0)
+            if (!summary.EquipmentSummariesNullOrEmpty())
             {
                 listing.DrawSection(rootEquipmentNode, "Equipment", indentLevel, OpenMask);
 
@@ -216,7 +216,10 @@ namespace RaidSummary.UI
                 }
 
                 listing.GapLine();
+            }
 
+            if (!summary.ApparelSummariesNullOrEmpty())
+            {
                 listing.DrawSection(rootApparelNode, "Apparel", indentLevel, OpenMask);
 
                 if (rootApparelNode.IsOpen(OpenMask))
