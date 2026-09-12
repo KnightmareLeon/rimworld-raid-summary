@@ -24,7 +24,7 @@ namespace RaidSummary.Patches
             if(!parms.faction.HostileTo(Faction.OfPlayer) && !RaidSummaryMod.Settings.createFriendliesReport)
                 return;
 
-            RaidSummaryData summary = new RaidSummaryData(parms.faction, (Map)parms.target, pawns);
+            RaidSummaryData summary = new RaidSummaryData(parms.faction, parms.raidStrategy, (Map)parms.target, pawns);
 
             RaidSummaryLetter letter =
                 (RaidSummaryLetter)LetterMaker.MakeLetter(

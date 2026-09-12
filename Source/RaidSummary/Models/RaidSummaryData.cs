@@ -7,15 +7,17 @@ namespace RaidSummary.Models
 {
     public class RaidSummaryData : IExposable
     {
-        private Faction faction ;
+        private Faction faction;
         private int tick;
         private Vector2 location;
+        private RaidStrategyDef raidStrat;
         private int totalPawnCount = 0;
         private int humanPawnCount = 0;
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
         private int shamblerCount = 0;
         public Faction Faction => faction;
+        public RaidStrategyDef RaidStrategy => raidStrat;
         public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
@@ -36,13 +38,14 @@ namespace RaidSummary.Models
         {
         }
 
-        public RaidSummaryData(Faction faction, Map map, List<Pawn> pawns)
+        public RaidSummaryData(Faction faction, RaidStrategyDef raidStrat, Map map, List<Pawn> pawns)
         {
-            totalPawnCount = pawns.Count;
             this.faction = faction;
-
+            this.raidStrat = raidStrat;
             tick = Find.TickManager.TicksAbs;
             location = Find.WorldGrid.LongLatOf(map.Tile);
+
+            totalPawnCount = pawns.Count;
 
             foreach (Pawn pawn in pawns)
             {
@@ -221,6 +224,7 @@ namespace RaidSummary.Models
             Scribe_References.Look(ref faction, "faction");
             Scribe_Values.Look(ref tick, "tick");
             Scribe_Values.Look(ref location, "location");
+            Scribe_Defs.Look(ref raidStrat, "raidStrat");
             Scribe_Values.Look(ref totalPawnCount, "totalPawnCount");
             Scribe_Values.Look(ref humanPawnCount, "humanPawnCount");
             Scribe_Values.Look(ref animalPawnCount, "animalPawnCount");

@@ -3,6 +3,7 @@ using Verse;
 using RaidSummary.Models;
 using RimWorld;
 using RaidSummary.Settings;
+using System.Text.RegularExpressions;
 
 namespace RaidSummary.UI
 {
@@ -166,6 +167,8 @@ namespace RaidSummary.UI
             listing.GapLine();
 
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
+            string strategy = Regex.Replace(summary.RaidStrategy.defName, @"((?<=\p{Ll})\p{Lu})|((?<!\A)\p{Lu}(?>\p{Ll}))", " $0");
+            listing.DrawLabel($"Strategy: {strategy}", indentLevel);
 
             listing.Gap();
 
