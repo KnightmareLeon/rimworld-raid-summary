@@ -18,7 +18,6 @@ namespace RaidSummary.Models
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
         private int shamblerCount = 0;
-        public Faction Faction => faction;
         public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
@@ -97,8 +96,7 @@ namespace RaidSummary.Models
 
         private void UpdateEquipmentSummaries(Thing equipment)
         {
-            if (equipment == null)
-                return;
+            if (equipment == null) return;
             
             ThingDef equipmentDef = equipment.def;
 
@@ -144,8 +142,7 @@ namespace RaidSummary.Models
 
         private void UpdateApparelSummaries(List<Apparel> wornApparel)
         {
-            if (wornApparel.NullOrEmpty())
-                return;
+            if (wornApparel.NullOrEmpty()) return;
             
             foreach (Apparel apparel in wornApparel)
             {
@@ -241,6 +238,14 @@ namespace RaidSummary.Models
             if (raidStrat.Worker is RaidStrategyWorker_StageThenAttack) return "Prepare Before Attack";
             
             return Regex.Replace(raidStrat.defName, @"((?<=\p{Ll})\p{Lu})|((?<!\A)\p{Lu}(?>\p{Ll}))", " $0");;
+        }
+
+        public string GetFactionName(bool applyTag = false, bool capitalFirst = true)
+        {
+            string factionName = faction.Name;
+            if(applyTag) factionName.ApplyTag(faction);
+            if(capitalFirst) factionName.CapitalizeFirst();
+            return factionName;
         }
         public void ExposeData()
         {
