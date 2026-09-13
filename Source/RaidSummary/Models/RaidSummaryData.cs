@@ -65,7 +65,8 @@ namespace RaidSummary.Models
                     {
                         UpdateEquipmentSummaries(pawn.equipment?.Primary);
                         UpdateApparelSummaries(pawn.apparel?.WornApparel);
-                        if (ModsConfig.BiotechActive) UpdateXenotypeCount(pawn.genes.Xenotype);
+                        if (ModsConfig.BiotechActive && pawn.genes != null)
+                            UpdateXenotypeCount(pawn.genes.Xenotype);
                         humanPawnCount++;
                     }
                 }
@@ -74,7 +75,7 @@ namespace RaidSummary.Models
                     UpdateEquipmentSummaries(pawn.equipment?.Primary);
                     UpdateApparelSummaries(pawn.apparel?.WornApparel);
 
-                    if (ModsConfig.BiotechActive)
+                    if (ModsConfig.BiotechActive && pawn.genes != null)
                         UpdateXenotypeCount(pawn.genes.Xenotype);
                     
                     humanPawnCount++;
