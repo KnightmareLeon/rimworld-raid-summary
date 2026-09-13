@@ -161,7 +161,7 @@ namespace RaidSummary.UI
 
             Text.Font = GameFont.Medium;
             string windowHeader = summary.IsFactionEnemy() ? "Raid" : "Friendlies";
-            listing.DrawLabel($"{summary.Faction.Name}'s {windowHeader} Summary", indentLevel);
+            listing.DrawLabel($"{summary.GetFactionName()}'s {windowHeader} Summary", indentLevel);
 
             Text.Font = GameFont.Small;
             listing.GapLine();
