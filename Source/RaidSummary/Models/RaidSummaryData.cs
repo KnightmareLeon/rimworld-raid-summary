@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Verse;
 using RimWorld;
 using UnityEngine;
+using Verse.AI;
+using System.Text.RegularExpressions;
 
 namespace RaidSummary.Models
 {
@@ -17,7 +19,6 @@ namespace RaidSummary.Models
         private int mechanoidCount = 0;
         private int shamblerCount = 0;
         public Faction Faction => faction;
-        public RaidStrategyDef RaidStrategy => raidStrat;
         public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
@@ -33,6 +34,11 @@ namespace RaidSummary.Models
             = new Dictionary<PawnKindDef, int>();
         private Dictionary<PawnKindDef, int> mechanoidCounts
             = new Dictionary<PawnKindDef, int>();
+        private readonly Dictionary<RaidStrategyDef, string> enemyRaidStratSummaries
+            = new Dictionary<RaidStrategyDef, string>
+            {
+                [RaidStrategyDefOf.ImmediateAttack] = "Immediate Attack"
+            };
 
         public RaidSummaryData()
         {
@@ -220,6 +226,22 @@ namespace RaidSummary.Models
         public bool EquipmentSummariesNullOrEmpty() => equipmentSummaries.NullOrEmpty();
         public bool ApparelSummariesNullOrEmpty() => apparelSummaries.NullOrEmpty();
 
+        public string GetRaidStrategySummary()
+        {
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttack) return "Immediate Attack";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreaching) return "Immediate Attack, Wall Breaching";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreachingSmart) return "Immediate Attack, Wall Breaching, Avoid Traps";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackFriendly) return "Immediate Help";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSappers) return "Immediate Attack, Sappers";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSmart) return "Immediate Attack, Avoid Traps";
+            if (raidStrat.Worker is RaidStrategyWorker_PsychicRitualSiege) return "Psychic Ritual";
+            if (raidStrat.Worker is RaidStrategyWorker_ShamblerAssault) return "Shambler Assault";
+            if (raidStrat.Worker is RaidStrategyWorker_Siege) return "Siege";
+            if (raidStrat.Worker is RaidStrategyWorker_SiegeMechanoid) return "Mechanoid Siege";
+            if (raidStrat.Worker is RaidStrategyWorker_StageThenAttack) return "Prepare Before Attack";
+            
+            return Regex.Replace(raidStrat.defName, @"((?<=\p{Ll})\p{Lu})|((?<!\A)\p{Lu}(?>\p{Ll}))", " $0");;
+        }
         public void ExposeData()
         {
             Scribe_References.Look(ref faction, "faction");
