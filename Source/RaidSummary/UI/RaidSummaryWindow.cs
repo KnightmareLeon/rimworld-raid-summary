@@ -167,7 +167,7 @@ namespace RaidSummary.UI
             listing.GapLine();
 
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
-            string strategy = Regex.Replace(summary.RaidStrategy.defName, @"((?<=\p{Ll})\p{Lu})|((?<!\A)\p{Lu}(?>\p{Ll}))", " $0");
+            string strategy = summary.GetRaidStrategySummary();
             listing.DrawLabel($"Strategy: {strategy}", indentLevel);
 
             listing.Gap();
