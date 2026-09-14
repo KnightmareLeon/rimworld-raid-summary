@@ -13,11 +13,13 @@ namespace RaidSummary.Models
         private int tick;
         private Vector2 location;
         private RaidStrategyDef raidStrat;
+        private PawnsArrivalModeDef arrivalMode;
         private int totalPawnCount = 0;
         private int humanPawnCount = 0;
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
         private int shamblerCount = 0;
+        public PawnsArrivalModeDef ArrivalMode => arrivalMode;
         public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
         public int AnimalPawnCount => animalPawnCount;
@@ -43,10 +45,11 @@ namespace RaidSummary.Models
         {
         }
 
-        public RaidSummaryData(Faction faction, RaidStrategyDef raidStrat, Map map, List<Pawn> pawns)
+        public RaidSummaryData(Faction faction, RaidStrategyDef raidStrat, PawnsArrivalModeDef arrivalMode, Map map, List<Pawn> pawns)
         {
             this.faction = faction;
             this.raidStrat = raidStrat;
+            this.arrivalMode = arrivalMode;
             tick = Find.TickManager.TicksAbs;
             location = Find.WorldGrid.LongLatOf(map.Tile);
 
@@ -247,6 +250,7 @@ namespace RaidSummary.Models
             if(capitalFirst) factionName.CapitalizeFirst();
             return factionName;
         }
+
         public void ExposeData()
         {
             Scribe_References.Look(ref faction, "faction");
