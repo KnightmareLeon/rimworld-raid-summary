@@ -2,8 +2,7 @@ using System.Collections.Generic;
 using Verse;
 using RimWorld;
 using UnityEngine;
-using Verse.AI;
-using System.Text.RegularExpressions;
+using RaidSummary.Utilities;
 
 namespace RaidSummary.Models
 {
@@ -240,7 +239,7 @@ namespace RaidSummary.Models
             if (raidStrat.Worker is RaidStrategyWorker_SiegeMechanoid) return "Mechanoid Siege";
             if (raidStrat.Worker is RaidStrategyWorker_StageThenAttack) return "Prepare Before Attack";
             
-            return Regex.Replace(raidStrat.defName, @"((?<=\p{Ll})\p{Lu})|((?<!\A)\p{Lu}(?>\p{Ll}))", " $0");;
+            return Utility.DefNameWordSeparator(raidStrat.defName);
         }
 
         public string GetFactionName(bool applyTag = false, bool capitalFirst = true)

@@ -4,6 +4,7 @@ using RaidSummary.Models;
 using RimWorld;
 using RaidSummary.Settings;
 using System.Text.RegularExpressions;
+using RaidSummary.Utilities;
 
 namespace RaidSummary.UI
 {
@@ -163,12 +164,13 @@ namespace RaidSummary.UI
             string windowHeader = summary.IsFactionEnemy() ? "Raid" : "Friendlies";
             listing.DrawLabel($"{summary.GetFactionName()}'s {windowHeader} Summary", indentLevel);
 
-            Text.Font = GameFont.Small;
+            Text.Font = GameFont.Small; 
             listing.GapLine();
 
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
             string strategy = summary.GetRaidStrategySummary();
             listing.DrawLabel($"Strategy: {strategy}", indentLevel);
+            listing.DrawLabel($"Arrival Mode: {Utility.DefNameWordSeparator(summary.ArrivalMode.defName)}", indentLevel);
 
             listing.Gap();
 
