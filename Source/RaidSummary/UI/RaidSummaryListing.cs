@@ -12,8 +12,16 @@ namespace RaidSummary.UI
             EndLine();
         }
 
+        private void DrawInfoCardButton(Def def, ref int indentLevel)
+        {
+            indentLevel++;
+            Widgets.InfoCardButton(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), def);
+            indentLevel++;
+        }
+
         public void DrawLabelForThing(ThingDef tDef, ref int indentLevel, string extraInfo = "")
         {
+            DrawInfoCardButton(tDef, ref indentLevel);
             if (tDef.uiIcon != null && tDef.uiIcon != BaseContent.BadTex)
                 indentLevel++;
 				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), tDef, null, 1f, null, drawPlaceholder: true);
@@ -22,6 +30,7 @@ namespace RaidSummary.UI
 
         public void DrawLabelForXenotype(XenotypeDef xDef, int indentLevel, string extraInfo = "")
         {
+            DrawInfoCardButton(xDef, ref indentLevel);
             if (xDef.Icon != null && xDef.Icon != BaseContent.BadTex)
                 indentLevel++;
 				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), xDef, null, 1f, null, drawPlaceholder: true);

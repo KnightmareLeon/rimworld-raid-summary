@@ -266,7 +266,7 @@ namespace RaidSummary.Models
             Scribe_Collections.Look(ref apparelSummaries, "apparelSummaries", LookMode.Def, LookMode.Deep);
             Scribe_Collections.Look(ref xenotypeCounts, "xenotypeCounts", LookMode.Def, LookMode.Value);
             Scribe_Collections.Look(ref animalCounts, "animalCounts", LookMode.Def, LookMode.Value);
-            Scribe_Collections.Look(ref mechanoidCounts, "mechanoidCounts", LookMode.Def,LookMode.Value);
+            Scribe_Collections.Look(ref mechanoidCounts, "mechanoidCounts", LookMode.Def, LookMode.Value);
         }
     }
 }
