@@ -59,5 +59,15 @@ namespace RaidSummary.UI
             indentLevel++;
             DrawLabelForThing(tDef, ref indentLevel, extraInfo: extraInfo);
         }
+
+        public void DrawWindowTitle(Faction faction, string title, int indentLevel)
+        {
+            int titleIndentLevel = indentLevel;
+            titleIndentLevel++;
+            Widgets.InfoCardButtonCentered(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), faction);
+            titleIndentLevel++;
+            Widgets.DefIcon(new Rect(XAtIndentLevel(titleIndentLevel) - 6f, curY, 20f, 20f), faction.def, null, 1f, null, drawPlaceholder: true);
+            DrawLabel(title, titleIndentLevel);
+        }
     }
 }
