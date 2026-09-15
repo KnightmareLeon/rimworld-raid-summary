@@ -18,6 +18,7 @@ namespace RaidSummary.Models
         private int animalPawnCount = 0;
         private int mechanoidCount = 0;
         private int shamblerCount = 0;
+        public Faction Faction => faction;
         public PawnsArrivalModeDef ArrivalMode => arrivalMode;
         public int TotalPawnCount => totalPawnCount;
         public int HumanPawnCount => humanPawnCount;
@@ -34,11 +35,6 @@ namespace RaidSummary.Models
             = new Dictionary<PawnKindDef, int>();
         private Dictionary<PawnKindDef, int> mechanoidCounts
             = new Dictionary<PawnKindDef, int>();
-        private readonly Dictionary<RaidStrategyDef, string> enemyRaidStratSummaries
-            = new Dictionary<RaidStrategyDef, string>
-            {
-                [RaidStrategyDefOf.ImmediateAttack] = "Immediate Attack"
-            };
 
         public RaidSummaryData()
         {
@@ -245,8 +241,8 @@ namespace RaidSummary.Models
         public string GetFactionName(bool applyTag = false, bool capitalFirst = true)
         {
             string factionName = faction.Name;
-            if(applyTag) factionName.ApplyTag(faction);
-            if(capitalFirst) factionName.CapitalizeFirst();
+            if(applyTag) factionName = factionName.ApplyTag(faction);
+            if(capitalFirst) factionName = factionName.CapitalizeFirst();
             return factionName;
         }
 
