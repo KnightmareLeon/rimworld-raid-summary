@@ -238,11 +238,11 @@ namespace RaidSummary.Models
             return Utility.DefNameWordSeparator(raidStrat.defName);
         }
 
-        public string GetFactionName(bool applyTag = false, bool capitalFirst = true)
+        public TaggedString GetFactionName(bool applyTag = false, bool capitalFirst = true)
         {
             string factionName = faction.Name;
-            if(applyTag) factionName = factionName.ApplyTag(faction);
             if(capitalFirst) factionName = factionName.CapitalizeFirst();
+            if(applyTag) return factionName.ApplyTag(faction);
             return factionName;
         }
 
