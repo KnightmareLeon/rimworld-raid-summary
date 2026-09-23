@@ -223,6 +223,8 @@ namespace RaidSummary.Models
 
         public string GetRaidStrategySummary()
         {
+            if(raidStrat == null) return "Raid Strategy Not Saved";
+
             if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttack) return "Immediate Attack";
             if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreaching) return "Immediate Attack, Wall Breaching";
             if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreachingSmart) return "Immediate Attack, Wall Breaching, Avoid Traps";
@@ -238,12 +240,11 @@ namespace RaidSummary.Models
             return Utility.DefNameWordSeparator(raidStrat.defName);
         }
 
-        public string GetFactionName(bool applyTag = false, bool capitalFirst = true)
+        public TaggedString GetFactionName(bool applyTag = false, bool capitalFirst = true)
         {
             string factionName = faction.Name;
-            if(applyTag) factionName = factionName.ApplyTag(faction);
             if(capitalFirst) factionName = factionName.CapitalizeFirst();
-            return factionName;
+            return applyTag ? factionName.ApplyTag(faction) : (TaggedString) factionName;
         }
 
         public void ExposeData()
@@ -252,6 +253,7 @@ namespace RaidSummary.Models
             Scribe_Values.Look(ref tick, "tick");
             Scribe_Values.Look(ref location, "location");
             Scribe_Defs.Look(ref raidStrat, "raidStrat");
+            Scribe_Defs.Look(ref arrivalMode, "arrivalMode");
             Scribe_Values.Look(ref totalPawnCount, "totalPawnCount");
             Scribe_Values.Look(ref humanPawnCount, "humanPawnCount");
             Scribe_Values.Look(ref animalPawnCount, "animalPawnCount");

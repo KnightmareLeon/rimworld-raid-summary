@@ -170,7 +170,8 @@ namespace RaidSummary.UI
             listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
             string strategy = summary.GetRaidStrategySummary();
             listing.DrawLabel($"Strategy: {strategy}", indentLevel);
-            listing.DrawLabel($"Arrival Mode: {Utility.DefNameWordSeparator(summary.ArrivalMode.defName)}", indentLevel);
+            string arrivalMode = summary.ArrivalMode != null ? Utility.DefNameWordSeparator(summary.ArrivalMode.defName) : "Arrival Mode Not Saved";
+            listing.DrawLabel($"Arrival Mode: {arrivalMode}", indentLevel);
 
             listing.Gap();
 
