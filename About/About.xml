@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
 	<name>Raid Summary</name>
-	<author>IceFrost</author>
-	<packageId>IceFrost.RaidSummary</packageId>
+	<author>IceZero</author>
+	<packageId>IceZero.RaidSummary</packageId>
 	<description>Adds a summary report window detailing a raid when it occurs.</description>
 	<supportedVersions>
 		<li>1.6</li>
