@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
 using RaidSummary.UI;
-using RaidSummary.Utilities;
+using RaidSummary.Defs;
 using RimWorld;
 using Verse;
 
