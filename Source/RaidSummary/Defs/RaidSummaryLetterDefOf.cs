@@ -1,7 +1,7 @@
 using RimWorld;
 using Verse;
 
-namespace RaidSummary.Utilities
+namespace RaidSummary.Defs
 {
     [DefOf]
     public static class RaidSummaryLetterDefOf
