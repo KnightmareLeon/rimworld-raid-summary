@@ -1,4 +1,3 @@
-using UnityEngine;
 using Verse;
 using RaidSummary.Models;
 using RimWorld;
@@ -46,11 +45,6 @@ namespace RaidSummary.UI
             doCloseX = true;
             draggable = true;
             absorbInputAroundWindow = false;
-        }
-
-        public override Vector2 InitialSize
-        {
-            get{return new Vector2(800f, 600f);}
         }
 
         private void DrawEquipment(RaidSummaryListing listing, ThingDef eqpDef, EquipmentSummary eqpSummary, int indentLevel)
