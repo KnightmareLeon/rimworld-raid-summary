@@ -2,8 +2,6 @@ using UnityEngine;
 using Verse;
 using RaidSummary.Models;
 using RimWorld;
-using RaidSummary.Settings;
-using System.Text.RegularExpressions;
 using RaidSummary.Utilities;
 
 namespace RaidSummary.UI
