@@ -6,15 +6,9 @@ using RaidSummary.Utilities;
 
 namespace RaidSummary.UI
 {
-    public class RaidSummaryWindow : Window
+    public class RaidSummaryWindow : SummaryWindow
     {
         private readonly RaidSummaryData summary;
-
-        private Vector2 scrollPosition = Vector2.zero;
-        private float viewHeight;
-
-        private const int OpenMask = 1;
-
         private readonly TreeNode xenotypeNode = new TreeNode();
         private readonly ThingRootSummaryNode rootEquipmentNode = new ThingRootSummaryNode();
         private readonly ThingRootSummaryNode rootApparelNode = new ThingRootSummaryNode();
@@ -154,7 +148,7 @@ namespace RaidSummary.UI
 
         }
 
-        private void DrawContents(RaidSummaryListing listing)
+        protected override void DrawContents(RaidSummaryListing listing)
         {
             int indentLevel = 0;
 
@@ -284,27 +278,6 @@ namespace RaidSummary.UI
                 }
                 listing.GapLine();
             }
-        }
-
-        public override void DoWindowContents(Rect inRect)
-        {
-            float width = inRect.width - 16f;
-
-            Rect viewRect = new Rect(0f, 0f, width, viewHeight);
-
-            Widgets.BeginScrollView(inRect, ref scrollPosition, viewRect);
-
-            Rect listingRect = new Rect(0f, 0f, viewRect.width, 6900f);
-            RaidSummaryListing listing = new RaidSummaryListing();
-
-            listing.Begin(listingRect);
-            DrawContents(listing);
-            listing.End();
-
-            if (Event.current.type == EventType.Layout)
-                viewHeight = listing.CurHeight;
-
-            Widgets.EndScrollView();
         }
     }
 }
