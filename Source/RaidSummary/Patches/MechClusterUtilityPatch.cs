@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
 using RaidSummary.UI;
-using RaidSummary.Utilities;
+using RaidSummary.Defs;
 using RimWorld;
 using Verse;
 
@@ -25,7 +25,17 @@ namespace RaidSummary.Patches
 
             if (!map.IsPlayerHome)
                 return;
+            MechClusterSummaryData summary = new MechClusterSummaryData(Find.FactionManager.OfMechanoids, map, __result);
 
+            MechClusterSummaryLetter letter =
+                (MechClusterSummaryLetter)LetterMaker.MakeLetter(
+                    MechClusterSummaryLetterDefOf.MechClusterSummaryLetter
+                );
+
+            letter.Initialize(summary);
+            letter.Label = $"Mech Cluster Summary: {summary.GetFactionName()}";
+
+            Find.LetterStack.ReceiveLetter(letter, delayTicks: 1);
         }
     }
 }
