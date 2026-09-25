@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
-using RaidSummary.Settings;
 using RaidSummary.UI;
 using RaidSummary.Utilities;
 using RimWorld;
