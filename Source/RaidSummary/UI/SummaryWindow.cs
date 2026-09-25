@@ -8,8 +8,11 @@ namespace RaidSummary.UI
     {
         private Vector2 scrollPosition = Vector2.zero;
         private float viewHeight;
-
         protected const int OpenMask = 1;
+        public override Vector2 InitialSize
+        {
+            get{return new Vector2(800f, 600f);}
+        }
         protected abstract void DrawContents(RaidSummaryListing listing);
         public override void DoWindowContents(Rect inRect)
         {
