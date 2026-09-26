@@ -29,7 +29,7 @@ namespace RaidSummary.Models
 
             foreach(Thing thing in spawnedThings)
             {
-                if(thing is Pawn pawn)
+                if(thing is Pawn pawn && pawn.RaceProps.IsMechanoid)
                 {
                     UpdateMechCount(pawn.kindDef);
                 }
