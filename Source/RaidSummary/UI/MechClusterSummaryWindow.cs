@@ -37,6 +37,8 @@ namespace RaidSummary.UI
 
             listing.DrawLabel($"Mechanoid Pawns: {summary.MechCount}", indentLevel);
             listing.DrawLabel($"Total Buildings: {summary.BuildingCount}", indentLevel);
+            listing.DrawLabel($"Total Walls: {summary.WallCount}", indentLevel);
+            listing.DrawLabel($"Total Barricades: {summary.BarricadeCount}", indentLevel);
 
             listing.GapLine();
 
@@ -70,9 +72,9 @@ namespace RaidSummary.UI
                     {
                         int buildingIndentLevel = indentLevel + 1;
                         ThingDef buildingDef = enumerator.Current.Key;
-                        int mechaCount = enumerator.Current.Value;
+                        int buildingCount = enumerator.Current.Value;
 
-                        listing.DrawLabelForThing(buildingDef, ref buildingIndentLevel, extraInfo:$": {mechaCount}");
+                        listing.DrawLabelForThing(buildingDef, ref buildingIndentLevel, extraInfo:$": {buildingCount}");
                     }
                 }
             }
