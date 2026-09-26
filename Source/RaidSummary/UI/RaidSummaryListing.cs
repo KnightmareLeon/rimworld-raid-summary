@@ -39,10 +39,12 @@ namespace RaidSummary.UI
 
         public void DrawLabelForPawnKind(PawnKindDef pkDef, int indentLevel, string extraInfo = "")
         {
+            int pkIndentLevel = indentLevel;
+            DrawInfoCardButton(pkDef.race, ref pkIndentLevel);
             if (pkDef.race.uiIcon != null && pkDef.race.uiIcon != BaseContent.BadTex)
-                indentLevel++;
-				Widgets.DefIcon(new Rect(XAtIndentLevel(indentLevel) - 6f, curY, 20f, 20f), pkDef, null, 1f, null, drawPlaceholder: true);
-            DrawLabel(pkDef.LabelCap + extraInfo, indentLevel);  
+                pkIndentLevel++;
+				Widgets.DefIcon(new Rect(XAtIndentLevel(pkIndentLevel) - 6f, curY, 20f, 20f), pkDef, null, 1f, null, drawPlaceholder: true);
+            DrawLabel(pkDef.LabelCap + extraInfo, pkIndentLevel);  
         }
 
         public void DrawSection(TreeNode node, string label, int indentLevel, int openMask)
