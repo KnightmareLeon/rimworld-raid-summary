@@ -12,6 +12,8 @@ namespace RaidSummary.Models
         private Vector2 location;
         private int mechPawnCount = 0;
         private int buildingCount = 0;
+        private int wallCount = 0;
+        private int barricadeCount = 0;
         private Dictionary<PawnKindDef, int> mechCounts
             = new Dictionary<PawnKindDef, int>();
         private Dictionary<ThingDef, int> buildingCounts
@@ -19,6 +21,8 @@ namespace RaidSummary.Models
         public Faction MechFaction => mechFaction;
         public int MechCount => mechPawnCount;
         public int BuildingCount => buildingCount;
+        public int WallCount => wallCount;
+        public int BarricadeCount => barricadeCount;
 
         public MechClusterSummaryData(){}
         public MechClusterSummaryData(Faction mechFaction, Map map, List<Thing> spawnedThings)
@@ -35,7 +39,18 @@ namespace RaidSummary.Models
                 }
                 else if (thing is Building building)
                 {
-                    UpdateBuildingCount(building.def);
+                    if(thing.def == ThingDefOf.Wall)
+                    {
+                        wallCount++; buildingCount++;
+                    }
+                    else if (thing.def == ThingDefOf.Barricade)
+                    {
+                        barricadeCount++; buildingCount++;
+                    }
+                    else
+                    {
+                        UpdateBuildingCount(building.def);
+                    }
                 }
             }
         }
@@ -74,8 +89,10 @@ namespace RaidSummary.Models
             Scribe_References.Look(ref mechFaction, "mechFaction");
             Scribe_Values.Look(ref tick, "tick");
             Scribe_Values.Look(ref location, "location");
-            Scribe_Values.Look(ref mechPawnCount, "mechPawnCount");
-            Scribe_Values.Look(ref buildingCount, "buildingCount");
+            Scribe_Values.Look(ref mechPawnCount, "mechPawnCount", 0);
+            Scribe_Values.Look(ref buildingCount, "buildingCount", 0);
+            Scribe_Values.Look(ref wallCount, "wallCount", 0);
+            Scribe_Values.Look(ref barricadeCount, "barricadeCount", 0);
             Scribe_Collections.Look(ref mechCounts, "mechCounts", LookMode.Def, LookMode.Value);
             Scribe_Collections.Look(ref buildingCounts, "buildingCounts", LookMode.Def, LookMode.Value);
         }
