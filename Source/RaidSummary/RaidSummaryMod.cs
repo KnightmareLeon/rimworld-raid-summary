@@ -25,13 +25,13 @@ namespace RaidSummary
             listing.Begin(inRect);
 
             if(ModsConfig.BiotechActive)
-                listing.CheckboxLabeled("Automatically show xenotypes", ref Settings.autoShowXenotypes);
+                listing.CheckboxLabeled("RaidSummary.AutomaticShowXenotypeSettings".Translate(), ref Settings.autoShowXenotypes);
 
-            listing.CheckboxLabeled("Automatically show equipment", ref Settings.autoShowEquipment);
-            listing.CheckboxLabeled("Automatically show apparel", ref Settings.autoShowApparel);
-            listing.CheckboxLabeled("Automatically show animals", ref Settings.autoShowAnimals);
-            listing.CheckboxLabeled("Automatically show mechanoids", ref Settings.autoShowMechanoids);
-            listing.CheckboxLabeled("Create friendlies summary reports", ref Settings.createFriendliesReport);
+            listing.CheckboxLabeled("RaidSummary.AutomaticShowEquipmentSettings".Translate(), ref Settings.autoShowEquipment);
+            listing.CheckboxLabeled("RaidSummary.AutomaticShowApparelSettings".Translate(), ref Settings.autoShowApparel);
+            listing.CheckboxLabeled("RaidSummary.AutomaticShowAnimalsSettings".Translate(), ref Settings.autoShowAnimals);
+            listing.CheckboxLabeled("RaidSummary.AutomaticShowMechanoidsSettings".Translate(), ref Settings.autoShowMechanoids);
+            listing.CheckboxLabeled("RaidSummary.FriendliesSummarySettings".Translate(), ref Settings.createFriendliesReport);
 
             listing.End();
         }
