@@ -175,7 +175,7 @@ namespace RaidSummary.UI
             TaggedString raidOrFriendlies = summary.IsFactionEnemy() ? "RaidSummary.Raid".Translate() : "RaidSummary.Friendlies".Translate();
             listing.DrawWindowTitle(
                 summary.Faction,
-                "RaidSummaryWindowTitle".Translate(
+                "RaidSummary.RaidSummaryWindowTitle".Translate(
                     summary.GetFactionName().Named("factionName"),
                     raidOrFriendlies.Named("raidOrFriendlies")), 
                 indentLevel
@@ -216,7 +216,7 @@ namespace RaidSummary.UI
 
             if (summary.HumanPawnCount > 0)
                 listing.DrawLabel(
-                    "RaidSummary.HumanPawnLabel".Translate(
+                    "RaidSummary.HumanCountLabel".Translate(
                         summary.HumanPawnCount
                     ),
                     indentLevel
