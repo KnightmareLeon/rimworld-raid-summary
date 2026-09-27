@@ -20,8 +20,12 @@ namespace RaidSummary.UI
 
         protected override string GetMouseoverText()
         {
-            string incident = summary.IsFactionEnemy() ? "raid" : "reinforcement";
-            return $"Generated summary report for {summary.GetFactionName(applyTag: true)}'s {incident} on {summary.GetRaidDate()}.";
+            TaggedString incident =
+                summary.IsFactionEnemy() ? 
+                "RaidSummary.raid".Translate() : 
+                "RaidSummary.reinforcement".Translate();
+
+            return $"{summary.GetFactionName(applyTag: true)}: {"RaidSummary.RaidSummaryLetterText".Translate(incident.Named("raidOrReinforcement"),summary.GetRaidDate().Named("dateAndTime"))}";
         }
 
         public override void ExposeData()
