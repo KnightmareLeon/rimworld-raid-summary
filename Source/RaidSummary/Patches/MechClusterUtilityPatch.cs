@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
 using RaidSummary.UI;
-using RaidSummary.Defs;
 using RimWorld;
 using Verse;
 
@@ -29,7 +28,7 @@ namespace RaidSummary.Patches
 
             MechClusterSummaryLetter letter =
                 (MechClusterSummaryLetter)LetterMaker.MakeLetter(
-                    MechClusterSummaryLetterDefOf.MechClusterSummaryLetter
+                    SummaryLetterDefOf.MechClusterSummaryLetter
                 );
 
             letter.Initialize(summary);

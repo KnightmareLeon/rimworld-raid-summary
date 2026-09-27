@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using RaidSummary.Models;
 using RaidSummary.UI;
-using RaidSummary.Defs;
 using RimWorld;
 using Verse;
 
@@ -27,7 +26,7 @@ namespace RaidSummary.Patches
 
             RaidSummaryLetter letter =
                 (RaidSummaryLetter)LetterMaker.MakeLetter(
-                    RaidSummaryLetterDefOf.RaidSummaryLetter
+                    SummaryLetterDefOf.RaidSummaryLetter
                 );
 
             letter.Initialize(summary);
