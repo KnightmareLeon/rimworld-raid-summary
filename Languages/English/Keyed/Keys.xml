@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-
     <RaidSummary.AutomaticShowXenotypeSettings>Automatically show xenotypes:</RaidSummary.AutomaticShowXenotypeSettings>
     <RaidSummary.AutomaticShowEquipmentSettings>Automatically show equipment:</RaidSummary.AutomaticShowEquipmentSettings>
     <RaidSummary.AutomaticShowApparelSettings>Automatically show apparel:</RaidSummary.AutomaticShowApparelSettings>
@@ -21,7 +20,7 @@
     <RaidSummary.MechanoidCountLabel>Mechanoid Pawns: {0}</RaidSummary.MechanoidCountLabel>
     <RaidSummary.ShamblerCountLabel>Shambler Pawns: {0}</RaidSummary.ShamblerCountLabel>
     <RaidSummary.XenotypesSectionLabel>Xenotypes</RaidSummary.XenotypesSectionLabel>
-    <RaidSummary.QualitiesSectionLabel>By Quality:<RaidSummary.QualitiesSectionLabel>
+    <RaidSummary.QualitiesSectionLabel>By Quality:</RaidSummary.QualitiesSectionLabel>
     <RaidSummary.MaterialSectionLabel>By Material:</RaidSummary.MaterialSectionLabel>
     <RaidSummary.EquipmentSectionLabel>Equipment</RaidSummary.EquipmentSectionLabel>
     <RaidSummary.BiocodedCountLabel>Biocoded: {0}</RaidSummary.BiocodedCountLabel>
@@ -33,5 +32,4 @@
     <RaidSummary.WallCountLabel>Total Walls: {0}</RaidSummary.WallCountLabel>
     <RaidSummary.BarricadeCountLabel>Total Barricades: {0}</RaidSummary.BarricadeCountLabel>
     <RaidSummary.BuildingSectionLabel>Buildings</RaidSummary.BuildingSectionLabel>
-
 </LanguageData>
