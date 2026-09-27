@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+    <!--Settings Translations -->
     <RaidSummary.AutomaticShowXenotypeSettings>Automatically show xenotypes:</RaidSummary.AutomaticShowXenotypeSettings>
     <RaidSummary.AutomaticShowEquipmentSettings>Automatically show equipment:</RaidSummary.AutomaticShowEquipmentSettings>
     <RaidSummary.AutomaticShowApparelSettings>Automatically show apparel:</RaidSummary.AutomaticShowApparelSettings>
@@ -7,6 +8,7 @@
     <RaidSummary.AutomaticShowMechanoidsSettings>Automatically show mechanoids:</RaidSummary.AutomaticShowMechanoidsSettings>
     <RaidSummary.FriendliesSummarySettings>Create friendlies summary reports:</RaidSummary.FriendliesSummarySettings>
 
+    <!--Summary Window Translations-->
     <RaidSummary.Raid>Raid</RaidSummary.Raid>
     <RaidSummary.Friendlies>Friendlies</RaidSummary.Friendlies>
     <RaidSummary.RaidSummaryWindowTitle>{factionName}'s {raidOrFriendlies} Summary</RaidSummary.RaidSummaryWindowTitle>
@@ -32,4 +34,27 @@
     <RaidSummary.WallCountLabel>Total Walls: {0}</RaidSummary.WallCountLabel>
     <RaidSummary.BarricadeCountLabel>Total Barricades: {0}</RaidSummary.BarricadeCountLabel>
     <RaidSummary.BuildingSectionLabel>Buildings</RaidSummary.BuildingSectionLabel>
+
+    <!--Raid Strategy Translations-->
+    <RaidSummary.RaidStrategyNull>Raid strategy was either not saved or none.</RaidSummary.RaidStrategyNull>
+    <RaidSummary.RaidStrategyImmediateAttack>Immediate Attack</RaidSummary.RaidStrategyImmediateAttack>
+    <RaidSummary.RaidStrategyImmediateAttackBreaching>Immediate Attack, Wall Breaching</RaidSummary.RaidStrategyImmediateAttackBreaching>
+    <RaidSummary.RaidStrategyImmediateAttackBreachingSmart>Immediate Attack, Wall Breaching, Avoid Traps</RaidSummary.RaidStrategyImmediateAttackBreachingSmart>
+    <RaidSummary.RaidStrategyImmediateAttackFriendly>Immediate Help</RaidSummary.RaidStrategyImmediateAttackFriendly>
+    <RaidSummary.RaidStrategyImmediateAttackSappers>Immediate Attack, Sappers</RaidSummary.RaidStrategyImmediateAttackSappers>
+    <RaidSummary.RaidStrategyImmediateAttackSmart>Immediate Attack, Avoid Traps</RaidSummary.RaidStrategyImmediateAttackSmart>
+    <RaidSummary.RaidStrategyPsychicRitual>Psychic Ritual</RaidSummary.RaidStrategyPsychicRitual>
+    <RaidSummary.RaidStrategyShamblerAssault>Shambler Assault</RaidSummary.RaidStrategyShamblerAssault>
+    <RaidSummary.RaidStrategySiege>Siege</RaidSummary.RaidStrategySiege>
+    <RaidSummary.RaidStrategyMechanoidSiege>Mechanoid Siege</RaidSummary.RaidStrategyMechanoidSiege>
+    <RaidSummary.RaidStrategyStageThenAttack>Prepare Before Attack</RaidSummary.RaidStrategyStageThenAttack>
+
+    <!--Letter Text Translations-->
+    <RaidSummary.raid>raid</RaidSummary.raid>
+    <RaidSummary.reinforcement>reinforcement</RaidSummary.reinforcement>
+    <RaidSummary.RaidSummaryLetterLabelRaid>Raid Summary: </RaidSummary.RaidSummaryLetterLabelRaid>
+    <RaidSummary.RaidSummaryLetterLabelFriendlies>Friendlies Summary: </RaidSummary.RaidSummaryLetterLabelFriendlies>
+    <RaidSummary.RaidSummaryLetterText>Generated {raidOrReinforcement} summary report on {dateAndTime}.</RaidSummary.RaidSummaryLetterText>
+    <RaidSummary.MechClusterLetterLabel>Mech Cluster Summary: {factionName}</RaidSummary.MechClusterLetterLabel>
+    <RaidSummary.MechClusterLetterText>Generated mech cluster summary report on {dateAndTime}.</RaidSummary.MechClusterLetterText>
 </LanguageData>

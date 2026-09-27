@@ -32,7 +32,9 @@ namespace RaidSummary.Patches
                 );
 
             letter.Initialize(summary);
-            letter.Label = $"Mech Cluster Summary: {summary.GetFactionName()}";
+            letter.Label = "RaidSummary.MechClusterLetterLabel".Translate(
+                summary.GetFactionName().Named("factionName")
+            );
 
             Find.LetterStack.ReceiveLetter(letter, delayTicks: 1);
         }

@@ -221,21 +221,33 @@ namespace RaidSummary.Models
         public bool EquipmentSummariesNullOrEmpty() => equipmentSummaries.NullOrEmpty();
         public bool ApparelSummariesNullOrEmpty() => apparelSummaries.NullOrEmpty();
 
-        public string GetRaidStrategySummary()
+        public TaggedString GetRaidStrategySummary()
         {
-            if(raidStrat == null) return "Raid Strategy Not Saved";
+            if(raidStrat == null)
+                return "RaidSummary.RaidStrategyNull".Translate();
 
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttack) return "Immediate Attack";
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreaching) return "Immediate Attack, Wall Breaching";
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreachingSmart) return "Immediate Attack, Wall Breaching, Avoid Traps";
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackFriendly) return "Immediate Help";
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSappers) return "Immediate Attack, Sappers";
-            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSmart) return "Immediate Attack, Avoid Traps";
-            if (raidStrat.Worker is RaidStrategyWorker_PsychicRitualSiege) return "Psychic Ritual";
-            if (raidStrat.Worker is RaidStrategyWorker_ShamblerAssault) return "Shambler Assault";
-            if (raidStrat.Worker is RaidStrategyWorker_Siege) return "Siege";
-            if (raidStrat.Worker is RaidStrategyWorker_SiegeMechanoid) return "Mechanoid Siege";
-            if (raidStrat.Worker is RaidStrategyWorker_StageThenAttack) return "Prepare Before Attack";
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttack)
+                return "RaidSummary.RaidStrategyImmediateAttack".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreaching)
+                return "RaidSummary.RaidStrategyImmediateAttackBreaching".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackBreachingSmart)
+                return "RaidSummary.RaidStrategyImmediateAttackBreachingSmart".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackFriendly)
+                return "RaidSummary.RaidStrategyImmediateAttackFriendly".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSappers)
+                return "RaidSummary.RaidStrategyImmediateAttackSappers".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ImmediateAttackSmart)
+                return "RaidSummary.RaidStrategyImmediateAttackSmart".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_PsychicRitualSiege)
+                return "RaidSummary.RaidStrategyPsychicRitual".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_ShamblerAssault)
+                return "RaidSummary.RaidStrategyShamblerAssault".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_Siege)
+                return "RaidSummary.RaidStrategySiege".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_SiegeMechanoid)
+                return "RaidSummary.RaidStrategyMechanoidSiege".Translate();
+            if (raidStrat.Worker is RaidStrategyWorker_StageThenAttack)
+                return "RaidSummary.RaidStrategyStageThenAttack".Translate();
             
             return Utility.DefNameWordSeparator(raidStrat.defName);
         }

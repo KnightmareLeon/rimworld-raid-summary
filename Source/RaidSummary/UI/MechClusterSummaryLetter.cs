@@ -20,7 +20,7 @@ namespace RaidSummary.UI
 
         protected override string GetMouseoverText()
         {
-            return $"Generated summary report for {summary.GetFactionName(applyTag: true)}'s mech cluster on {summary.GetMechClusterDate()}.";
+            return $"{summary.GetFactionName(applyTag: true)}: {"RaidSummary.MechClusterLetterText".Translate(summary.GetMechClusterDate().Named("dateAndTime"))}";
         }
 
         public override void ExposeData()
