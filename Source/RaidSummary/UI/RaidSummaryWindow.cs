@@ -58,9 +58,19 @@ namespace RaidSummary.UI
             if (eqpNode.IsOpen(OpenMask))
             {
                 if (eqpSummary.BiocodedCount > 0)
-                    listing.DrawLabel($"Biocoded: {eqpSummary.BiocodedCount}", eqpIndentLevel + 1);
+                    listing.DrawLabel(
+                        "RaidSummary.BiocodedCountLabel".Translate(
+                            eqpSummary.BiocodedCount
+                        ),
+                        eqpIndentLevel + 1
+                    );
 
-                listing.DrawSection(eqpNode.QualitiesNode, "By Quality:", eqpIndentLevel + 1, OpenMask);
+                listing.DrawSection(
+                    eqpNode.QualitiesNode,
+                    "RaidSummary.QualitiesSectionLabel".Translate(),
+                    eqpIndentLevel + 1,
+                    OpenMask
+                );
 
                 if(eqpNode.QualitiesNode.IsOpen(OpenMask))
                 {
@@ -77,7 +87,12 @@ namespace RaidSummary.UI
 
                 if (!eqpSummary.MaterialNullOrEmpty())
                 {
-                    listing.DrawSection(eqpNode.MaterialsNode, "By Material:", eqpIndentLevel + 1, OpenMask);
+                    listing.DrawSection(
+                        eqpNode.MaterialsNode,
+                        "RaidSummary.MaterialSectionLabel".Translate(),
+                        eqpIndentLevel + 1,
+                        OpenMask
+                    );
 
                     if(eqpNode.MaterialsNode.IsOpen(OpenMask))
                     {
@@ -105,7 +120,12 @@ namespace RaidSummary.UI
 
             if(appNode.IsOpen(OpenMask))
             {
-                listing.DrawSection(appNode.QualitiesNode, "By Quality:", appIndentLevel + 1, OpenMask);
+                listing.DrawSection(
+                    appNode.QualitiesNode,
+                    "RaidSummary.QualitiesSectionLabel".Translate(),
+                    appIndentLevel + 1,
+                    OpenMask
+                );
 
                 if(appNode.QualitiesNode.IsOpen(OpenMask))
                 {
@@ -122,7 +142,12 @@ namespace RaidSummary.UI
 
                 if (!appSummary.MaterialNullOrEmpty())
                 {
-                    listing.DrawSection(appNode.MaterialsNode, "By Material:", appIndentLevel + 1, OpenMask);
+                    listing.DrawSection(
+                        appNode.MaterialsNode,
+                        "RaidSummary.MaterialSectionLabel".Translate(),
+                        appIndentLevel + 1,
+                        OpenMask
+                    );
 
                     if(appNode.MaterialsNode.IsOpen(OpenMask))
                     {
@@ -147,31 +172,85 @@ namespace RaidSummary.UI
             int indentLevel = 0;
 
             Text.Font = GameFont.Medium;
-            string windowHeader = summary.IsFactionEnemy() ? "Raid" : "Friendlies";
-            listing.DrawWindowTitle(summary.Faction, $"{summary.GetFactionName()}'s {windowHeader} Summary", indentLevel);
+            TaggedString raidOrFriendlies = summary.IsFactionEnemy() ? "RaidSummary.Raid".Translate() : "RaidSummary.Friendlies".Translate();
+            listing.DrawWindowTitle(
+                summary.Faction,
+                "RaidSummaryWindowTitle".Translate(
+                    summary.GetFactionName().Named("factionName"),
+                    raidOrFriendlies.Named("raidOrFriendlies")), 
+                indentLevel
+            );
 
             Text.Font = GameFont.Small; 
             listing.GapLine();
 
-            listing.DrawLabel($"Date and Time: {summary.GetRaidDate()}", indentLevel);
-            string strategy = summary.GetRaidStrategySummary();
-            listing.DrawLabel($"Strategy: {strategy}", indentLevel);
-            string arrivalMode = summary.ArrivalMode != null ? Utility.DefNameWordSeparator(summary.ArrivalMode.defName) : "Arrival Mode Not Saved";
-            listing.DrawLabel($"Arrival Mode: {arrivalMode}", indentLevel);
+            listing.DrawLabel(
+                "RaidSummary.DateAndTimeLabel".Translate(
+                    summary.GetRaidDate()),
+                indentLevel
+            );
+
+            listing.DrawLabel(
+                "RaidSummary.StrategyLabel".Translate(
+                    summary.GetRaidStrategySummary()), 
+                indentLevel
+            );
+
+            string arrivalMode = summary.ArrivalMode != null ?
+                (TaggedString)Utility.DefNameWordSeparator(summary.ArrivalMode.defName) : 
+                "RaidSummary.ArrivalModeNull".Translate();
+            listing.DrawLabel(
+                "RaidSummary.ArrivalModeLabel".Translate(
+                    arrivalMode),
+                indentLevel
+            );
 
             listing.Gap();
 
-            listing.DrawLabel($"Total Pawns: {summary.TotalPawnCount}", indentLevel);
-            if (summary.HumanPawnCount > 0) listing.DrawLabel($"Human Pawns: {summary.HumanPawnCount}", indentLevel);
-            if (summary.AnimalPawnCount > 0) listing.DrawLabel($"Animal Pawns: {summary.AnimalPawnCount}", indentLevel);
-            if (summary.MechanoidCount > 0) listing.DrawLabel($"Mechanoid Pawns: {summary.MechanoidCount}", indentLevel);
-            if (summary.ShamblerCount > 0) listing.DrawLabel($"Shambler Pawns: {summary.ShamblerCount}", indentLevel);
+            listing.DrawLabel(
+                "RaidSummary.TotalPawnCountLabel".Translate(
+                    summary.TotalPawnCount
+                ),
+                indentLevel
+            );
+
+            if (summary.HumanPawnCount > 0)
+                listing.DrawLabel(
+                    "RaidSummary.HumanPawnLabel".Translate(
+                        summary.HumanPawnCount
+                    ),
+                    indentLevel
+                );
+
+            if (summary.AnimalPawnCount > 0)
+                listing.DrawLabel(
+                    "RaidSummary.AnimalCountLabel".Translate(
+                        summary.AnimalPawnCount
+                    ),
+                    indentLevel
+                );
+
+            if (summary.MechanoidCount > 0)
+                listing.DrawLabel(
+                    "RaidSummary.MechanoidCountLabel".Translate(
+                        summary.MechanoidCount
+                    ),
+                    indentLevel
+                );
+            
+            if (summary.ShamblerCount > 0)
+                listing.DrawLabel(
+                    "RaidSummary.ShamblerCountLabel".Translate(
+                        summary.ShamblerCount
+                    ),
+                    indentLevel
+                );
 
             listing.GapLine();
 
             if (ModsConfig.BiotechActive && summary.HumanPawnCount > 0)
             {
-                listing.DrawSection(xenotypeNode, "Xenotypes", indentLevel, OpenMask);
+                listing.DrawSection(xenotypeNode, "RaidSummary.XenotypesSectionLabel".Translate(), indentLevel, OpenMask);
 
                 if (xenotypeNode.IsOpen(OpenMask))
                 {
@@ -192,7 +271,7 @@ namespace RaidSummary.UI
 
             if (!summary.EquipmentSummariesNullOrEmpty())
             {
-                listing.DrawSection(rootEquipmentNode, "Equipment", indentLevel, OpenMask);
+                listing.DrawSection(rootEquipmentNode, "RaidSummary.EquipmentSectionLabel".Translate(), indentLevel, OpenMask);
 
                 if (rootEquipmentNode.IsOpen(OpenMask))
                 {
@@ -214,7 +293,12 @@ namespace RaidSummary.UI
 
             if (!summary.ApparelSummariesNullOrEmpty())
             {
-                listing.DrawSection(rootApparelNode, "Apparel", indentLevel, OpenMask);
+                listing.DrawSection(
+                    rootApparelNode,
+                    "RaidSummary.ApparelSectionLabel".Translate(),
+                    indentLevel,
+                    OpenMask
+                );
 
                 if (rootApparelNode.IsOpen(OpenMask))
                 {
@@ -235,7 +319,12 @@ namespace RaidSummary.UI
             if (summary.AnimalPawnCount > 0)
             {
 
-                listing.DrawSection(animalNode, "Animals", indentLevel, OpenMask);
+                listing.DrawSection(
+                    animalNode,
+                    "RaidSummary.AnimalsSectionLabel".Translate(),
+                    indentLevel,
+                    OpenMask
+                );
 
                 if (animalNode.IsOpen(OpenMask))
                 {
@@ -255,7 +344,12 @@ namespace RaidSummary.UI
 
             if(summary.MechanoidCount > 0)
             {
-                listing.DrawSection(mechanoidNode, "Mechanoids", indentLevel, OpenMask);
+                listing.DrawSection(
+                    mechanoidNode,
+                    "RaidSummary.MechanoidsSectionLabel".Translate(),
+                    indentLevel,
+                    OpenMask
+                );
 
                 if (mechanoidNode.IsOpen(OpenMask))
                 {

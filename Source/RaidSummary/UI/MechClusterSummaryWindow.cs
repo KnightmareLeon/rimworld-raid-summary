@@ -1,8 +1,6 @@
-using UnityEngine;
 using Verse;
 using RaidSummary.Models;
 using RimWorld;
-using RaidSummary.Utilities;
 
 namespace RaidSummary.UI
 {
@@ -28,23 +26,62 @@ namespace RaidSummary.UI
             int indentLevel = 0;
 
             Text.Font = GameFont.Medium;
-            listing.DrawWindowTitle(summary.MechFaction, $"{summary.GetFactionName()}'s Mech Cluster Summary", indentLevel);
+            listing.DrawWindowTitle(
+                summary.MechFaction,
+                "RaidSummary.MechClusterSummaryWindowTitle".Translate(
+                    summary.GetFactionName().Named("factionName")
+                ),
+                indentLevel);
 
             Text.Font = GameFont.Small; 
             listing.GapLine();
-            listing.DrawLabel($"Date and Time: {summary.GetMechClusterDate()}", indentLevel);
+
+            listing.DrawLabel(
+                "RaidSummary.DateAndTimeLabel".Translate(
+                    summary.GetMechClusterDate()
+                ),
+                indentLevel
+            );
             listing.Gap();
 
-            listing.DrawLabel($"Mechanoid Pawns: {summary.MechCount}", indentLevel);
-            listing.DrawLabel($"Total Buildings: {summary.BuildingCount}", indentLevel);
-            listing.DrawLabel($"Total Walls: {summary.WallCount}", indentLevel);
-            listing.DrawLabel($"Total Barricades: {summary.BarricadeCount}", indentLevel);
+            listing.DrawLabel(
+                "RaidSummary.MechanoidCountLabel".Translate(
+                    summary.MechCount
+                ),
+                indentLevel
+            );
+
+            listing.DrawLabel(
+                "RaidSummary.BuildingCountLabel".Translate(
+                    summary.BuildingCount
+                ),
+                indentLevel
+            );
+
+            listing.DrawLabel(
+                "RaidSummary.WallCountLabel".Translate(
+                    summary.WallCount
+                ),
+                indentLevel
+            );
+
+            listing.DrawLabel(
+                "RaidSummary.BarricadeCountLabel".Translate(
+                    summary.BarricadeCount
+                ),
+                indentLevel
+            );
 
             listing.GapLine();
 
             if(summary.MechCount > 0)
             {
-                listing.DrawSection(mechanoidNode, "Mechanoids", indentLevel, OpenMask);
+                listing.DrawSection(
+                    mechanoidNode,
+                    "RaidSummary.MechanoidsSectionLabel".Translate(),
+                    indentLevel,
+                    OpenMask
+                );
 
                 if (mechanoidNode.IsOpen(OpenMask))
                 {
@@ -62,7 +99,12 @@ namespace RaidSummary.UI
                 listing.GapLine();
             }
 
-            listing.DrawSection(buildingNode, "Buildings", indentLevel, OpenMask);
+            listing.DrawSection(
+                buildingNode,
+                "RaidSummary.BuildingSectionLabel".Translate(),
+                indentLevel,
+                OpenMask
+            );
 
             if (buildingNode.IsOpen(OpenMask))
             {

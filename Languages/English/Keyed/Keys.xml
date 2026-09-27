@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+    <RaidSummary.AutomaticShowXenotypeSettings>Automatically show xenotypes:</RaidSummary.AutomaticShowXenotypeSettings>
+    <RaidSummary.AutomaticShowEquipmentSettings>Automatically show equipment:</RaidSummary.AutomaticShowEquipmentSettings>
+    <RaidSummary.AutomaticShowApparelSettings>Automatically show apparel:</RaidSummary.AutomaticShowApparelSettings>
+    <RaidSummary.AutomaticShowAnimalsSettings>Automatically show animals:</RaidSummary.AutomaticShowAnimalsSettings>
+    <RaidSummary.AutomaticShowMechanoidsSettings>Automatically show mechanoids:</RaidSummary.AutomaticShowMechanoidsSettings>
+    <RaidSummary.FriendliesSummarySettings>Create friendlies summary reports:</RaidSummary.FriendliesSummarySettings>
+
+    <RaidSummary.Raid>Raid</RaidSummary.Raid>
+    <RaidSummary.Friendlies>Friendlies</RaidSummary.Friendlies>
+    <RaidSummary.RaidSummaryWindowTitle>{factionName}'s {raidOrFriendlies} Summary</RaidSummary.RaidSummaryWindowTitle>
+    <RaidSummary.DateAndTimeLabel>Date and Time: {0}</RaidSummary.DateAndTimeLabel>
+    <RaidSummary.StrategyLabel>Strategy: {0}</RaidSummary.StrategyLabel>
+    <RaidSummary.ArrivalModeNull>Arrival Mode was either not saved or none.</RaidSummary.ArrivalModeNull>
+    <RaidSummary.ArrivalModeLabel>Arrival Mode: {0}</RaidSummary.ArrivalModeLabel>
+    <RaidSummary.TotalPawnCountLabel>Total Pawns: {0}</RaidSummary.TotalPawnCountLabel>
+    <RaidSummary.HumanCountLabel>Human Pawns: {0}</RaidSummary.HumanCountLabel>
+    <RaidSummary.AnimalCountLabel>Animal Pawns: {0}</RaidSummary.AnimalCountLabel>
+    <RaidSummary.MechanoidCountLabel>Mechanoid Pawns: {0}</RaidSummary.MechanoidCountLabel>
+    <RaidSummary.ShamblerCountLabel>Shambler Pawns: {0}</RaidSummary.ShamblerCountLabel>
+    <RaidSummary.XenotypesSectionLabel>Xenotypes</RaidSummary.XenotypesSectionLabel>
+    <RaidSummary.QualitiesSectionLabel>By Quality:<RaidSummary.QualitiesSectionLabel>
+    <RaidSummary.MaterialSectionLabel>By Material:</RaidSummary.MaterialSectionLabel>
+    <RaidSummary.EquipmentSectionLabel>Equipment</RaidSummary.EquipmentSectionLabel>
+    <RaidSummary.BiocodedCountLabel>Biocoded: {0}</RaidSummary.BiocodedCountLabel>
+    <RaidSummary.ApparelSectionLabel>Apparel</RaidSummary.ApparelSectionLabel>
+    <RaidSummary.AnimalsSectionLabel>Animal</RaidSummary.AnimalsSectionLabel>
+    <RaidSummary.MechanoidsSectionLabel>Mechanoids</RaidSummary.MechanoidsSectionLabel>
+    <RaidSummary.MechClusterSummaryWindowTitle>{factionName}'s Mech Cluster Summary</RaidSummary.MechClusterSummaryWindowTitle>
+    <RaidSummary.BuildingCountLabel>Total Buildings: {0}</RaidSummary.BuildingCountLabel>
+    <RaidSummary.WallCountLabel>Total Walls: {0}</RaidSummary.WallCountLabel>
+    <RaidSummary.BarricadeCountLabel>Total Barricades: {0}</RaidSummary.BarricadeCountLabel>
+    <RaidSummary.BuildingSectionLabel>Buildings</RaidSummary.BuildingSectionLabel>
+
+</LanguageData>
