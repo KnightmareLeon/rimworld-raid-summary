@@ -8,7 +8,7 @@ namespace RaidSummary.UI
 {
     public class MechClusterSummaryWindow : SummaryWindow
     {
-        private MechClusterSummaryData summary;
+        private readonly MechClusterSummaryData summary;
         private readonly TreeNode mechanoidNode = new TreeNode();
         private readonly TreeNode buildingNode = new TreeNode();
         public MechClusterSummaryWindow(MechClusterSummaryData summary)
