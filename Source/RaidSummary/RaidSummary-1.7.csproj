@@ -8,16 +8,10 @@
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <RimWorld17Dir>C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorld17Dir>
     <RimWorld17Managed>$(RimWorld17Dir)\RimWorldWin64_Data\Managed</RimWorld17Managed>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
     <DefineConstants>$(DefineConstants);RIMWORLD_17</DefineConstants>
+    <RootNamespace>RaidSummary</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
