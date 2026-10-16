@@ -10,22 +10,17 @@ namespace RaidSummary.Patches
     [HarmonyPatch(typeof(MechClusterUtility), "SpawnCluster")]
     public static class MechClusterUtilityPatch
     {
-        public static void Postfix(
-            IntVec3 center,
-            Map map,
-            MechClusterSketch sketch,
-            bool dropInPods,
-            bool canAssaultColony,
-            string questTag,
-            List<Thing> __result)
+        public static void Postfix(IntVec3 center, Map map, MechClusterSketch sketch, bool dropInPods, bool canAssaultColony, string questTag, List<Thing> __result)
         {
-            if (__result.NullOrEmpty() || sketch == null)
-                return;
+            if (__result.NullOrEmpty() || sketch == null) return;
 
-            if (!map.IsPlayerHome)
-                return;
+            if (!map.IsPlayerHome) return;
+        #if RIMWORLD_17
+            MechClusterSummaryData summary = new(Find.FactionManager.OfMechanoids, map, __result);
+        #else
             MechClusterSummaryData summary = new MechClusterSummaryData(Find.FactionManager.OfMechanoids, map, __result);
-
+        #endif
+            
             MechClusterSummaryLetter letter =
                 (MechClusterSummaryLetter)LetterMaker.MakeLetter(
                     SummaryLetterDefOf.MechClusterSummaryLetter

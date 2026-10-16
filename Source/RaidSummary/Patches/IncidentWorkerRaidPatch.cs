@@ -22,12 +22,13 @@ namespace RaidSummary.Patches
             if(!parms.faction.HostileTo(Faction.OfPlayer) && !RaidSummaryMod.Settings.createFriendliesReport)
                 return;
 
+            #if RIMWORLD_17
+            RaidSummaryData summary = new(parms.faction, parms.raidStrategy, parms.raidArrivalMode, (Map)parms.target, pawns);
+            #else
             RaidSummaryData summary = new RaidSummaryData(parms.faction, parms.raidStrategy, parms.raidArrivalMode, (Map)parms.target, pawns);
+            #endif
 
-            RaidSummaryLetter letter =
-                (RaidSummaryLetter)LetterMaker.MakeLetter(
-                    SummaryLetterDefOf.RaidSummaryLetter
-                );
+            RaidSummaryLetter letter = (RaidSummaryLetter)LetterMaker.MakeLetter(SummaryLetterDefOf.RaidSummaryLetter);
 
             letter.Initialize(summary);
             letter.Label = 
