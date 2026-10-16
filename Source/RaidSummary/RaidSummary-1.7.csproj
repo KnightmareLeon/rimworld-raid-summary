@@ -15,6 +15,11 @@
     <RimWorld17Managed>$(RimWorld17Dir)\RimWorldWin64_Data\Managed</RimWorld17Managed>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);RIMWORLD_17</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(RimWorld17Dir)\Assembly-CSharp.dll</HintPath>
